@@ -4,5 +4,77 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Programmer {
+    int id, pos;
+    String name, gameState, color, favLanguages;
 
+    public Programmer(int id, String name, String favLanguages, String color) {
+        this.id = id;
+        this.name = name;
+        this.color = color;
+        this.favLanguages = favLanguages;
+        this.pos = 1;
+        this.gameState = "Em Jogo";
+    }
+
+    public void setGameState(String gameState) {
+        this.gameState = gameState;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public String getGameState() {
+        return this.gameState;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ProgrammerColor getColor() {
+        if (color.equals("Purple")) {
+            return ProgrammerColor.PURPLE;
+        } else if (color.equals("Green")) {
+            return ProgrammerColor.GREEN;
+        } else if (color.equals("Brown")) {
+            return ProgrammerColor.BROWN;
+        } else if (color.equals("Blue")) {
+            return ProgrammerColor.BLUE;
+        }
+        return null;
+    }
+
+    public void changePos(int value, int size) {
+        int excess;
+        if (value + pos < 1) {
+            pos = 1;
+        } else if (value + pos > size) {
+            excess = size - (value + pos);
+            pos = size + excess;
+        } else {
+            pos += value;
+        }
+    }
+
+    @Override
+    public String toString() {
+        ArrayList<String> listFavLanguages = new ArrayList<>();
+        Collections.addAll(listFavLanguages, favLanguages.split(";"));
+        Collections.sort(listFavLanguages);
+
+        StringBuilder languages = new StringBuilder();
+        for (int i = 0; i < listFavLanguages.size(); i++) {
+            if (i != listFavLanguages.size() - 1) {
+                languages.append(listFavLanguages.get(i).trim()).append("; ");
+            } else {
+                languages.append(listFavLanguages.get(i).trim());
+            }
+        }
+        return id + " | " + name + " | " + pos + " | " + languages + " | " + gameState;
+    }
 }
