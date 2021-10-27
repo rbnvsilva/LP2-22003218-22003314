@@ -43,8 +43,8 @@ public class GameManager {
                             colors.add(info[3]);
                         }
                     }
+                    players.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], info[3]));
                 }
-                players.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], info[3]));
             }
         }
         players.sort(Comparator.comparing(Programmer -> Programmer.getId()));
@@ -55,6 +55,10 @@ public class GameManager {
     public String getImagePng(int position) {
         if (position < 1 || position > size) {
             return null;
+        }
+
+        if (position == size) {
+            return "glory.png";
         }
 
         for (Programmer programmer : players) {
@@ -69,10 +73,6 @@ public class GameManager {
                     return "playerBlue.png";
                 }
             }
-        }
-
-        if (position == size) {
-            return "glory.png";
         }
 
         return "";
@@ -142,15 +142,15 @@ public class GameManager {
     public ArrayList<String> getGameResults() {
         ArrayList<String> results = new ArrayList<>();
         results.add("O GRANDE JOGO DO DEISI");
-        results.add("\n");
+        results.add("\n\n");
         results.add("NR. DE TURNOS");
         results.add(nTurns + "");
-        results.add("\n");
+        results.add("\n\n");
         results.add("VENCEDOR");
         for (Programmer programmer : players) {
             if (programmer.getGameState().equals("Em Jogo")) {
                 results.add(programmer.getName());
-                results.add("\n");
+                results.add("\n\n");
             }
         }
         results.add("RESTANTES");
