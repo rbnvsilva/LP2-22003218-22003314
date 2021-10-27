@@ -159,6 +159,11 @@ public class GameManager {
                 results.add(programmer.getName() + " " + programmer.getPos());
             }
         }
+        results.add("\n");
+        results.add("\n");
+        results.add("\n");
+        results.add("\n");
+        results.add("\n");
         return results;
     }
 
