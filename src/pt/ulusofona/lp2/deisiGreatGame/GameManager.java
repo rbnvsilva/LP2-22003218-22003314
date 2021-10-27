@@ -1,6 +1,8 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -136,8 +138,8 @@ public class GameManager {
         }
         return false;
     }
-    public ArrayList<String> getGameResults() {return new ArrayList<>();}
-    public ArrayList<String> getResults() {
+
+    public ArrayList<String> getGameResults() {
         ArrayList<String> results = new ArrayList<>();
         results.add("O GRANDE JOGO DO DEISI");
         results.add("\n");
@@ -163,6 +165,12 @@ public class GameManager {
     }
 
     public JPanel getAuthorsPanel() {
-        return new JPanel();
+        JPanel panel = new JPanel();
+        JLabel jLabel = new JLabel("Simao Bento 22003314\nRuben Silva 22003218");
+        jLabel.setFont(new Font("Verdana",1,20));
+        panel.add(jLabel,BorderLayout.NORTH);
+        panel.setBorder(new LineBorder(Color.RED));
+        panel.setVisible(true);
+        return panel;
     }
 }
