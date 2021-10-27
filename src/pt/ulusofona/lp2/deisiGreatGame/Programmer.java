@@ -16,6 +16,10 @@ public class Programmer {
         this.gameState = "Em Jogo";
     }
 
+    public String getGameState() {
+        return this.gameState;
+    }
+
     public void setGameState(String gameState) {
         this.gameState = gameState;
     }
@@ -24,16 +28,12 @@ public class Programmer {
         return id;
     }
 
-    public int getPos() {
-        return pos;
-    }
-
-    public String getGameState() {
-        return this.gameState;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public int getPos() {
+        return pos;
     }
 
     public ProgrammerColor getColor() {
@@ -49,7 +49,7 @@ public class Programmer {
         return null;
     }
 
-    public void changePos(int value, int size) {
+    public void move(int value, int size) {
         int excess;
         if (value + pos < 1) {
             pos = 1;

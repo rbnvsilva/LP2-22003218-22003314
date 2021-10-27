@@ -17,9 +17,9 @@ public class GameManager {
 
     public boolean createInitialBoard(String[][] playerInfo, int boardSize) {
         players = new ArrayList<>();
+        size = boardSize;
         HashSet<Integer> ids = new HashSet<>();
         HashSet<String> colors = new HashSet<>();
-        size = boardSize;
 
         if (playerInfo.length > 4 || playerInfo.length < 2 || boardSize < playerInfo.length * 2) {
             return false;
@@ -37,10 +37,10 @@ public class GameManager {
                     }
                     if (info[3].equals("Purple") || info[3].equals("Blue")
                             || info[3].equals("Green") || info[3].equals("Brown")) {
-                        if (colors.contains(info[2])) {
+                        if (colors.contains(info[3])) {
                             return false;
                         } else {
-                            colors.add(info[2]);
+                            colors.add(info[3]);
                         }
                     }
                 }
@@ -83,17 +83,17 @@ public class GameManager {
     }
 
     public ArrayList<Programmer> getProgrammers(int position) {
-        ArrayList<Programmer> validos = new ArrayList<>();
+        ArrayList<Programmer> valid = new ArrayList<>();
         for (Programmer programmer : players) {
             if (programmer.getPos() == position) {
-                validos.add(programmer);
+                valid.add(programmer);
             }
         }
 
-        if (validos.size() == 0) {
+        if (valid.size() == 0) {
             return null;
         }
-        return validos;
+        return valid;
     }
 
     public int getCurrentPlayerID() {
@@ -106,7 +106,8 @@ public class GameManager {
         }
         for (Programmer programmer : players) {
             if (programmer.getId() == idTurn) {
-                programmer.changePos(nrPositions, size);
+                programmer.move(nrPositions, size);
+                nTurns++;
                 if (programmer.getPos() == size) {
                     return true;
                 }
@@ -119,7 +120,6 @@ public class GameManager {
             }
         }
         idTurn = players.get(0).getId();
-        nTurns++;
         return true;
     }
 
