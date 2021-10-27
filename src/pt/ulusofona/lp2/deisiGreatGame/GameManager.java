@@ -137,7 +137,7 @@ public class GameManager {
         return false;
     }
 
-    public ArrayList<String> getGameResults() {
+    public ArrayList<String> getResults() {
         ArrayList<String> results = new ArrayList<>();
         results.add("O GRANDE JOGO DO DEISI");
         results.add("\n");
@@ -157,7 +157,6 @@ public class GameManager {
         for (Programmer programmer : players) {
             if (!programmer.getGameState().equals("Em Jogo")) {
                 results.add(programmer.getName() + " " + programmer.getPos());
-                results.add("\n");
             }
         }
         return results;
