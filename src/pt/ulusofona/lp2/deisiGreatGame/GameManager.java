@@ -136,7 +136,7 @@ public class GameManager {
         }
         return false;
     }
-
+    public ArrayList<String> getGameResults() {return new ArrayList<>();}
     public ArrayList<String> getResults() {
         ArrayList<String> results = new ArrayList<>();
         results.add("O GRANDE JOGO DO DEISI");
