@@ -142,15 +142,15 @@ public class GameManager {
     public ArrayList<String> getGameResults() {
         ArrayList<String> results = new ArrayList<>();
         results.add("O GRANDE JOGO DO DEISI");
-        results.add("\n\n");
+        results.add("\n");
         results.add("NR. DE TURNOS");
         results.add(nTurns + "");
-        results.add("\n\n");
+        results.add("\n");
         results.add("VENCEDOR");
         for (Programmer programmer : players) {
             if (programmer.getGameState().equals("Em Jogo")) {
                 results.add(programmer.getName());
-                results.add("\n\n");
+                results.add("\n");
             }
         }
         results.add("RESTANTES");
@@ -168,7 +168,7 @@ public class GameManager {
         JPanel panel = new JPanel();
         JLabel jLabel = new JLabel("Simao Bento 22003314\nRuben Silva 22003218");
         jLabel.setFont(new Font("Verdana",1,20));
-        panel.add(jLabel,BorderLayout.NORTH);
+        panel.add(jLabel, BorderLayout.NORTH);
         panel.setBorder(new LineBorder(Color.RED));
         panel.setVisible(true);
         return panel;
