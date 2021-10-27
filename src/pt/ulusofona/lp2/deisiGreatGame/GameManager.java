@@ -157,13 +157,9 @@ public class GameManager {
         for (Programmer programmer : players) {
             if (!programmer.getGameState().equals("Em Jogo")) {
                 results.add(programmer.getName() + " " + programmer.getPos());
+                results.add("\n");
             }
         }
-        results.add("\n");
-        results.add("\n");
-        results.add("\n");
-        results.add("\n");
-        results.add("\n");
         return results;
     }
 
