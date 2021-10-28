@@ -143,6 +143,7 @@ public class GameManager {
         ArrayList<String> results = new ArrayList<>();
         results.add("O GRANDE JOGO DO DEISI");
         results.add("\n");
+        results.add("\n");
         results.add("NR. DE TURNOS");
         results.add(nTurns + "");
         results.add("\n");
@@ -166,11 +167,15 @@ public class GameManager {
 
     public JPanel getAuthorsPanel() {
         JPanel panel = new JPanel();
+
+        panel.setSize(300,300);
         JLabel jLabel = new JLabel("Simao Bento 22003314\nRuben Silva 22003218");
         jLabel.setFont(new Font("Verdana",1,20));
+        jLabel.setText("Simao Bento 22003314\nRuben Silva 22003218");
+        jLabel.setVisible(true);
         panel.add(jLabel,BorderLayout.NORTH);
-        panel.setBorder(new LineBorder(Color.RED));
         panel.setVisible(true);
         return panel;
+
     }
 }
