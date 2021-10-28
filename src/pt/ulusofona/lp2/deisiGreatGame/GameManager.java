@@ -16,6 +16,7 @@ public class GameManager {
     }
 
     public boolean createInitialBoard(String[][] playerInfo, int boardSize) {
+        nTurns = 1;
         players = new ArrayList<>();
         HashSet<Integer> ids = new HashSet<>();
         HashSet<ProgrammerColor> colors = new HashSet<>();
