@@ -143,16 +143,13 @@ public class GameManager {
         ArrayList<String> results = new ArrayList<>();
         results.add("O GRANDE JOGO DO DEISI");
         results.add("\n");
-        results.add("\n");
         results.add("NR. DE TURNOS");
         results.add(nTurns + "");
-        results.add("\n");
         results.add("\n");
         results.add("VENCEDOR");
         for (Programmer programmer : players) {
             if (programmer.getGameState().equals("Em Jogo")) {
                 results.add(programmer.getName());
-                results.add("\n");
                 results.add("\n");
             }
         }
@@ -164,6 +161,7 @@ public class GameManager {
                 results.add(programmer.getName() + " " + programmer.getPos());
             }
         }
+        results.add("\n");
         return results;
     }
 
