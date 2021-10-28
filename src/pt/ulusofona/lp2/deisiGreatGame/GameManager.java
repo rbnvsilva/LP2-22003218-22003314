@@ -21,7 +21,6 @@ public class GameManager {
         HashSet<ProgrammerColor> colors = new HashSet<>();
         ProgrammerColor color = null;
         size = boardSize;
-        int i = 1;
 
         if (playerInfo.length > 4 || playerInfo.length < 2 || boardSize < playerInfo.length * 2) {
             return false;
