@@ -5,9 +5,10 @@ import java.util.Collections;
 
 public class Programmer {
     int id, pos;
-    String name, gameState, color, favLanguages;
+    String name, gameState, favLanguages;
+    ProgrammerColor color;
 
-    public Programmer(int id, String name, String favLanguages, String color) {
+    public Programmer(int id, String name, String favLanguages, ProgrammerColor color) {
         this.id = id;
         this.name = name;
         this.color = color;
@@ -37,16 +38,7 @@ public class Programmer {
     }
 
     public ProgrammerColor getColor() {
-        if (color.equals("Purple")) {
-            return ProgrammerColor.PURPLE;
-        } else if (color.equals("Green")) {
-            return ProgrammerColor.GREEN;
-        } else if (color.equals("Brown")) {
-            return ProgrammerColor.BROWN;
-        } else if (color.equals("Blue")) {
-            return ProgrammerColor.BLUE;
-        }
-        return null;
+        return this.color;
     }
 
     public void move(int value, int size) {

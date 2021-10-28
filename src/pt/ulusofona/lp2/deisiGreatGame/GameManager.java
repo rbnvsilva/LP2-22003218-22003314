@@ -18,7 +18,8 @@ public class GameManager {
     public boolean createInitialBoard(String[][] playerInfo, int boardSize) {
         players = new ArrayList<>();
         HashSet<Integer> ids = new HashSet<>();
-        HashSet<String> colors = new HashSet<>();
+        HashSet<ProgrammerColor> colors = new HashSet<>();
+        ProgrammerColor color = null;
         size = boardSize;
 
         if (playerInfo.length > 4 || playerInfo.length < 2 || boardSize < playerInfo.length * 2) {
@@ -37,14 +38,24 @@ public class GameManager {
                     }
                     if (info[3].equals("Purple") || info[3].equals("Blue")
                             || info[3].equals("Green") || info[3].equals("Brown")) {
-                        if (colors.contains(info[2])) {
+                        if (info[3].equals("Purple")) {
+                            color = ProgrammerColor.PURPLE;
+                        }else if (info[3].equals("Blue")) {
+                            color = ProgrammerColor.BLUE;
+                        } else if(info[3].equals("Green")) {
+                            color = ProgrammerColor.GREEN;
+                        } else {
+                            color = ProgrammerColor.BROWN;
+                        }
+                        if (colors.contains(color)) {
                             return false;
                         } else {
-                            colors.add(info[2]);
+                            colors.add(color);
                         }
                     }
                 }
-                players.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], info[3]));
+                players.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], color));
+                color = null;
             }
         }
         players.sort(Comparator.comparing(Programmer -> Programmer.getId()));
