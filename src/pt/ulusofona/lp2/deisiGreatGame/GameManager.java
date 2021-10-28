@@ -106,7 +106,7 @@ public class GameManager {
         }
         for (Programmer programmer : players) {
             if (programmer.getId() == idTurn) {
-                programmer.changePos(nrPositions, size);
+                programmer.move(nrPositions, size);
                 if (programmer.getPos() == size) {
                     return true;
                 }
