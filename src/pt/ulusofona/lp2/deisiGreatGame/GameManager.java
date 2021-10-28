@@ -177,10 +177,10 @@ public class GameManager {
 
     public JPanel getAuthorsPanel() {
         JPanel panel = new JPanel();
-        JLabel jLabel = new JLabel("Simao Bento 22003314\nRuben Silva 22003218");
-        jLabel.setFont(new Font("Verdana",1,20));
+        JLabel jLabel = new JLabel("Simao Bento 22003314\n");
+        JLabel jLabel1 = new JLabel("Ruben Silva 22003218\n");
         panel.add(jLabel,BorderLayout.NORTH);
-        panel.setBorder(new LineBorder(Color.RED));
+        panel.add(jLabel1,BorderLayout.CENTER);
         panel.setVisible(true);
         return panel;
     }
