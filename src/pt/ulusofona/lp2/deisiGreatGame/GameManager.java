@@ -143,6 +143,7 @@ public class GameManager {
         ArrayList<String> results = new ArrayList<>();
         results.add("O GRANDE JOGO DO DEISI");
         results.add("\n");
+        results.add("\n");
         results.add("NR. DE TURNOS");
         results.add(nTurns + "");
         results.add("\n");
