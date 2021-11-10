@@ -33,6 +33,10 @@ public class Programmer {
         return name;
     }
 
+    public void setPos(int value) {
+        pos = value;
+    }
+
     public int getPos() {
         return pos;
     }
