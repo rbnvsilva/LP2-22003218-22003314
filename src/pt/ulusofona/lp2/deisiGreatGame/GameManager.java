@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,20 +67,6 @@ public class GameManager {
     public String getImagePng(int position) {
         if (position < 1 || position > size) {
             return null;
-        }
-
-        for (Programmer programmer : players) {
-            if (programmer.getPos() == position) {
-                if (programmer.getColor() == ProgrammerColor.PURPLE) {
-                    return "playerPurple.png";
-                } else if (programmer.getColor() == ProgrammerColor.GREEN) {
-                    return "playerGreen.png";
-                } else if (programmer.getColor() == ProgrammerColor.BROWN) {
-                    return "playerBrown.png";
-                } else if (programmer.getColor() == ProgrammerColor.BLUE) {
-                    return "playerBlue.png";
-                }
-            }
         }
 
         if (position == size) {
