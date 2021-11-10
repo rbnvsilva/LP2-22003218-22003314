@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 
 public class TestGameManager {
+    GameManager gameManager;
+    String [][] playerInfo = new String[2][4];
+
     @Test
     public void testMoveCurrentPlayer1() {
-        GameManager gameManager = new GameManager();
-        String [][] playerInfo = new String[2][4];
+        gameManager = new GameManager();
         playerInfo[0][0] = "1";
         playerInfo[0][1] = "Rui";
         playerInfo[0][2] = "Java;";
@@ -24,8 +26,7 @@ public class TestGameManager {
 
     @Test
     public void testMoveCurrentPlayer2() {
-        GameManager gameManager = new GameManager();
-        String [][] playerInfo = new String[2][4];
+        gameManager = new GameManager();
         playerInfo[0][0] = "1";
         playerInfo[0][1] = "Rui";
         playerInfo[0][2] = "Java;";
@@ -42,8 +43,7 @@ public class TestGameManager {
 
     @Test
     public void testMoveCurrentPlayer3() {
-        GameManager gameManager = new GameManager();
-        String [][] playerInfo = new String[2][4];
+        gameManager = new GameManager();
         playerInfo[0][0] = "1";
         playerInfo[0][1] = "Rui";
         playerInfo[0][2] = "Java;";
@@ -63,8 +63,7 @@ public class TestGameManager {
 
     @Test
     public void testMoveCurrentPlayer4() {
-        GameManager gameManager = new GameManager();
-        String [][] playerInfo = new String[2][4];
+        gameManager = new GameManager();
         playerInfo[0][0] = "1";
         playerInfo[0][1] = "Rui";
         playerInfo[0][2] = "Java;";
