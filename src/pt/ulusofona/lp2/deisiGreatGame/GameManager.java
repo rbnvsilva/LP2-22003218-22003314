@@ -1,12 +1,12 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 
 public class GameManager {
     int size, idTurn, nTurns;
@@ -15,15 +15,19 @@ public class GameManager {
     public GameManager() {
     }
 
-    public boolean createInitialBoard(String[][] playerInfo, int boardSize) {
+    boolean createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) {
+        return true;
+    }
+
+    public boolean createInitialBoard(String[][] playerInfo, int worldSize) {
         nTurns = 1;
         players = new ArrayList<>();
         HashSet<Integer> ids = new HashSet<>();
         HashSet<ProgrammerColor> colors = new HashSet<>();
         ProgrammerColor color = null;
-        size = boardSize;
+        size = worldSize;
 
-        if (playerInfo.length > 4 || playerInfo.length < 2 || boardSize < playerInfo.length * 2) {
+        if (playerInfo.length > 4 || playerInfo.length < 2 || worldSize < playerInfo.length * 2) {
             return false;
         } else {
             for (String[] info : playerInfo) {
@@ -76,11 +80,19 @@ public class GameManager {
         return "";
     }
 
+    String getTitle(int position) {
+        return "";
+    }
+
+    List<Programmer> getProgrammers(boolean includeDefeated) {
+        return new ArrayList<>();
+    }
+
     public ArrayList<Programmer> getProgrammers() {
         return players;
     }
 
-    public ArrayList<Programmer> getProgrammers(int position) {
+    List<Programmer> getProgrammers(int position) {
         ArrayList<Programmer> valid = new ArrayList<>();
         for (Programmer programmer : players) {
             if (programmer.getPos() == position) {
@@ -92,6 +104,10 @@ public class GameManager {
             return null;
         }
         return valid;
+    }
+
+    String getProgrammersInfo() {
+        return "";
     }
 
     public int getCurrentPlayerID() {
@@ -121,6 +137,10 @@ public class GameManager {
         return true;
     }
 
+    String reactToAbyssOrTool() {
+        return "";
+    }
+
     public boolean gameIsOver() {
         for (Programmer programmer : players) {
             if (programmer.getId() == idTurn) {
@@ -137,7 +157,7 @@ public class GameManager {
         return false;
     }
 
-    public ArrayList<String> getGameResults() {
+    public List<String> getGameResults() {
         ArrayList<String> results = new ArrayList<>();
         results.add("O GRANDE JOGO DO DEISI");
         results.add("");

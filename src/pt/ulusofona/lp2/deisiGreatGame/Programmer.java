@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class Programmer {
     int id, pos;
-    String name, gameState, favLanguages;
+    String name, gameState, favLanguages, ferramentas;
     ProgrammerColor color;
 
     public Programmer(int id, String name, String favLanguages, ProgrammerColor color) {
