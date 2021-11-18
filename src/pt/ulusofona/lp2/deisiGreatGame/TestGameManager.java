@@ -2,9 +2,6 @@ package pt.ulusofona.lp2.deisiGreatGame;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
-
 public class TestGameManager {
     GameManager gameManager;
     String [][] playerInfo = new String[2][4];
