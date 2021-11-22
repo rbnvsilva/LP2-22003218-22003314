@@ -11,12 +11,11 @@ import java.util.List;
 public class GameManager {
     int size, idTurn, nTurns;
     ArrayList<Programmer> players;
+    ArrayList<Abysse> abysses;
+    ArrayList<Tool> tools;
 
     public GameManager() {
-    }
 
-    boolean createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) {
-        return true;
     }
 
     public boolean createInitialBoard(String[][] playerInfo, int worldSize) {
@@ -68,20 +67,73 @@ public class GameManager {
         return true;
     }
 
+    public boolean createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) {
+        //TODO fazer classe com abismo e tools ao mm tempo
+
+        if (!createInitialBoard(playerInfo, worldSize)) {
+            return false;
+        }
+
+        abysses = new ArrayList<>();
+        tools = new ArrayList<>();
+
+        if (abyssesAndTools != null) {
+            for (String[] abysseOrToolArray : abyssesAndTools) {
+                if (abysseOrToolArray[0].equals("0")) {
+                    if ((!(Integer.parseInt(abysseOrToolArray[1]) > 9 || Integer.parseInt(abysseOrToolArray[1]) < 0))
+                            && ((Integer.parseInt(abysseOrToolArray[2]) > 0) && (Integer.parseInt(abysseOrToolArray[2]) < worldSize))) {
+                        abysses.add(new Abysse(Integer.parseInt(abysseOrToolArray[1]), Integer.parseInt(abysseOrToolArray[2])));
+                    }
+                } else if (abysseOrToolArray[0].equals("1")) {
+                    if ((!(Integer.parseInt(abysseOrToolArray[1]) > 5 || Integer.parseInt(abysseOrToolArray[1]) < 0))
+                            && ((Integer.parseInt(abysseOrToolArray[2]) > 0) && (Integer.parseInt(abysseOrToolArray[2]) < worldSize))) {
+                        tools.add(new Tool(Integer.parseInt(abysseOrToolArray[1]), Integer.parseInt(abysseOrToolArray[2])));
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public String getImagePng(int position) {
         if (position < 1 || position > size) {
             return null;
+        }
+
+        if (position == 1) {
+            return "blank.png";
         }
 
         if (position == size) {
             return "glory.png";
         }
 
+        for (int i = 2; i <= size; i++) {
+
+        }
+
         return "";
     }
 
-    String getTitle(int position) {
-        return "";
+    public String getTitle(int position) {
+        if (position > size) {
+            return null;
+        }
+
+        for (Abysse abysse : abysses) {
+            if (abysse.getPos() == position) {
+                return abysse.getTitle();
+            }
+        }
+
+        for (Tool tool : tools) {
+            if (tool.getPos() == position) {
+                return tool.getTitle();
+            }
+        }
+        return null;
     }
 
     List<Programmer> getProgrammers(boolean includeDefeated) {
@@ -137,7 +189,7 @@ public class GameManager {
         return true;
     }
 
-    String reactToAbyssOrTool() {
+    public String reactToAbyssOrTool() {
         return "";
     }
 
