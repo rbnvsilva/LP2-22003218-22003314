@@ -50,6 +50,18 @@ public class Programmer {
         return pos;
     }
 
+    public ArrayList<Integer> getOldPos() {
+        return oldPos;
+    }
+
+    public void setPodeMover(boolean podeMover) {
+        this.podeMover = podeMover;
+    }
+
+    public boolean podeMover(){
+        return podeMover;
+    }
+
     public ProgrammerColor getColor() {
         return this.color;
     }
