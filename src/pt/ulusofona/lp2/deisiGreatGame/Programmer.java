@@ -2,11 +2,15 @@ package pt.ulusofona.lp2.deisiGreatGame;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class Programmer {
     int id, pos;
-    String name, gameState, favLanguages, ferramentas;
+    String name, gameState, favLanguages;
     ProgrammerColor color;
+    HashSet<String> tools;
+    ArrayList<Integer> oldPos;
+    boolean podeMover = true;
 
     public Programmer(int id, String name, String favLanguages, ProgrammerColor color) {
         this.id = id;
@@ -15,6 +19,8 @@ public class Programmer {
         this.favLanguages = favLanguages;
         this.pos = 1;
         this.gameState = "Em Jogo";
+        this.tools = new HashSet<>();
+        this.oldPos = new ArrayList<>();
     }
 
     public String getGameState() {
@@ -29,6 +35,9 @@ public class Programmer {
         return id;
     }
 
+    public HashSet<String> getTools() {
+        return tools;
+    }
     public String getName() {
         return name;
     }
