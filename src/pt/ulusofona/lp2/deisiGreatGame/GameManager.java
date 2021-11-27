@@ -222,15 +222,13 @@ public class GameManager {
     }
 
     public boolean moveCurrentPlayer(int nrPositions) {
-
-
         if (nrPositions < 1 || nrPositions > 6) {
             return false;
         }
         for (Programmer programmer : programmers) {
             if (programmer.getId() == idTurn) {
-                programmer.getOldPos().add(programmer.getPos());
                 if (programmer.podeMover()) {
+                    programmer.getOldPos().add(programmer.getPos());
                     programmer.move(nrPositions, size);
                     return true;
                 }
@@ -380,7 +378,6 @@ public class GameManager {
         } else {
             return message.toString();
         }
-
     }
 
     public boolean gameIsOver() {
@@ -423,9 +420,8 @@ public class GameManager {
             }
         }
         results.add("RESTANTES");
-        Comparator<Programmer> compare = Comparator.comparing(Programmer::getPos).thenComparing(Programmer::getName);
+        Comparator<Programmer> compare = Comparator.comparing(Programmer::getPos).reversed().thenComparing(Programmer::getName);
         programmers.sort(compare);
-        Collections.reverse(programmers);
         for (Programmer programmer : programmers) {
             if (!programmer.getGameState().equals("Em Jogo")) {
                 results.add(programmer.getName() + " " + programmer.getPos());
