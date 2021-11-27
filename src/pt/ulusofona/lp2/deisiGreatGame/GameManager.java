@@ -68,8 +68,6 @@ public class GameManager {
     }
 
     public boolean createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) {
-        //TODO fazer classe com abismo e tools ao mm tempo
-
         if (!createInitialBoard(playerInfo, worldSize)) {
             return false;
         }
@@ -219,6 +217,8 @@ public class GameManager {
     }
 
     public boolean moveCurrentPlayer(int nrPositions) {
+
+
         if (nrPositions < 1 || nrPositions > 6) {
             return false;
         }
@@ -247,106 +247,110 @@ public class GameManager {
                 if (programmer.getOldPos().size() >= 2) {
                     antepenultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-2);
                 }
-                for (Abysse abysse : abysses) {
-                    if (abysse != null) {
-                        if (abysse.getPos() == programmer.getPos()) {
-                            message.append(abysse.abysseMessage(programmer));
-                            if (abysse.getTitle().equals("Erro de sintaxe")) {
-                                if (!(programmer.getTools().contains("Ajuda Do Professor"))) {
-                                    programmer.move(-1, size);
-                                } else {
-                                    programmer.getTools().remove("Ajuda Do Professor");
-                                }
-                            } else if (abysse.getTitle().equals("Erro de lógica")) {
-                                int posFinal = (int) Math.floor((((double) posAtual - (double) penultimaPos) / 2));
-                                if (!(programmer.getTools().contains("Ajuda Do Professor"))) {
-                                    programmer.move(-posFinal, size);
-                                } else {
-                                    programmer.getTools().remove("Ajuda Do Professor");
-                                }
-                            } else if (abysse.getTitle().equals("Exception")) {
-                                if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Tratamento de Excepções")) {
-                                    if (!programmer.getTools().contains("Ajuda Do Professor")) {
-                                        programmer.getTools().remove("Tratamento de Excepções");
+                if(abysses != null){
+                    for (Abysse abysse : abysses) {
+                        if (abysse != null) {
+                            if (abysse.getPos() == programmer.getPos()) {
+                                message.append(abysse.abysseMessage(programmer));
+                                if (abysse.getTitle().equals("Erro de sintaxe")) {
+                                    if (!(programmer.getTools().contains("Ajuda Do Professor"))) {
+                                        programmer.move(-1, size);
                                     } else {
                                         programmer.getTools().remove("Ajuda Do Professor");
                                     }
-                                } else {
-                                    programmer.move(-2, size);
-                                }
-                            } else if (abysse.getTitle().equals("File Not Found Exception")) {
-                                if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Tratamento de Excepções")) {
-                                    if (!programmer.getTools().contains("Ajuda Do Professor")) {
-                                        programmer.getTools().remove("Tratamento de Excepções");
+                                } else if (abysse.getTitle().equals("Erro de lógica")) {
+                                    int posFinal = (int) Math.floor((((double) posAtual - (double) penultimaPos) / 2));
+                                    if (!(programmer.getTools().contains("Ajuda Do Professor"))) {
+                                        programmer.move(-posFinal, size);
                                     } else {
                                         programmer.getTools().remove("Ajuda Do Professor");
                                     }
-                                } else {
-                                    programmer.move(-3, size);
-                                }
-                            } else if (abysse.getTitle().equals("Crash (aka Rebentanço)")) {
-                                if (!(programmer.getTools().contains("Testes unitários"))) {
-                                    programmer.setPos(1);
-                                } else {
-                                    programmer.getTools().remove("Testes unitários");
-                                }
-                            } else if (abysse.getTitle().equals("Duplicated Code")) {
-                                if (!(programmer.getTools().contains("IDE"))) {
-                                    programmer.setPos(penultimaPos);
-                                } else {
-                                    programmer.getTools().remove("IDE");
-                                }
-                            } else if (abysse.getTitle().equals("Efeitos secundários")) {
-                                if (!(programmer.getTools().contains("Herança"))) {
-                                    programmer.setPos(antepenultimaPos);
-                                } else {
-                                    programmer.getTools().remove("Herança");
-                                }
-                            } else if (abysse.getTitle().equals("Blue Screen of Death")) {
-                                programmer.setPodeMover(false);
-                                programmer.setGameState("Derrotado");
-                            } else if (abysse.getTitle().equals("Ciclo infinito")) {
-                                if (!(programmer.getTools().contains("Programação Funcional"))) {
-                                    programmer.setPodeMover(false);
-                                    for (Programmer programmer1 : programmers) {
-                                        if (!(programmer1.getName().equals(programmer.getName()))) {
-                                            if (programmer1.getPos() == programmer.getPos()) {
-                                                programmer1.setPodeMover(true);
-                                            }
+                                } else if (abysse.getTitle().equals("Exception")) {
+                                    if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Tratamento de Excepções")) {
+                                        if (!programmer.getTools().contains("Ajuda Do Professor")) {
+                                            programmer.getTools().remove("Tratamento de Excepções");
+                                        } else {
+                                            programmer.getTools().remove("Ajuda Do Professor");
                                         }
+                                    } else {
+                                        programmer.move(-2, size);
                                     }
-                                } else {
-                                    programmer.getTools().remove("Programação Funcional");
-                                }
-                            } else if (abysse.getTitle().equals("Segmentation Fault")) {
-                                int i = 0;
-                                for (Programmer programmer1 : programmers) {
-                                    if (programmer1.getPos() == programmer.getPos()) {
-                                        i++;
-                                    }
-                                }
-                                if (!(programmer.getTools().contains("Programação Funcional"))) {
-                                    if (i >= 2) {
-                                        for (Programmer programmer1 : programmers) {
-                                            if (programmer1.getPos() == programmer.getPos()) {
-                                                programmer1.move(-3, size);
-                                            }
+                                } else if (abysse.getTitle().equals("File Not Found Exception")) {
+                                    if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Tratamento de Excepções")) {
+                                        if (!programmer.getTools().contains("Ajuda Do Professor")) {
+                                            programmer.getTools().remove("Tratamento de Excepções");
+                                        } else {
+                                            programmer.getTools().remove("Ajuda Do Professor");
                                         }
+                                    } else {
+                                        programmer.move(-3, size);
                                     }
-                                } else {
-                                    if (i >= 2) {
+                                } else if (abysse.getTitle().equals("Crash (aka Rebentanço)")) {
+                                    if (!(programmer.getTools().contains("Testes unitários"))) {
+                                        programmer.setPos(1);
+                                    } else {
+                                        programmer.getTools().remove("Testes unitários");
+                                    }
+                                } else if (abysse.getTitle().equals("Duplicated Code")) {
+                                    if (!(programmer.getTools().contains("IDE"))) {
+                                        programmer.setPos(penultimaPos);
+                                    } else {
+                                        programmer.getTools().remove("IDE");
+                                    }
+                                } else if (abysse.getTitle().equals("Efeitos secundários")) {
+                                    if (!(programmer.getTools().contains("Programação Funcional"))) {
+                                        programmer.setPos(antepenultimaPos);
+                                    } else {
                                         programmer.getTools().remove("Programação Funcional");
+                                    }
+                                } else if (abysse.getTitle().equals("Blue Screen of Death")) {
+                                    programmer.setPodeMover(false);
+                                    programmer.setGameState("Derrotado");
+                                } else if (abysse.getTitle().equals("Ciclo infinito")) {
+                                    if (!(programmer.getTools().contains("Programação Funcional"))) {
+                                        programmer.setPodeMover(false);
+                                        for (Programmer programmer1 : programmers) {
+                                            if (!(programmer1.getName().equals(programmer.getName()))) {
+                                                if (programmer1.getPos() == programmer.getPos()) {
+                                                    programmer1.setPodeMover(true);
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        programmer.getTools().remove("Programação Funcional");
+                                    }
+                                } else if (abysse.getTitle().equals("Segmentation Fault")) {
+                                    int i = 0;
+                                    for (Programmer programmer1 : programmers) {
+                                        if (programmer1.getPos() == programmer.getPos()) {
+                                            i++;
+                                        }
+                                    }
+                                    if (!(programmer.getTools().contains("Herança"))) {
+                                        if (i >= 2) {
+                                            for (Programmer programmer1 : programmers) {
+                                                if (programmer1.getPos() == programmer.getPos()) {
+                                                    programmer1.move(-3, size);
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        if (i >= 2) {
+                                            programmer.getTools().remove("Herança");
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-                for (Tool tool : tools) {
-                    if (tool != null) {
-                        if (tool.getPos() == programmer.getPos()) {
-                            message.append(tool.toolMessage());
-                            programmer.getTools().add(tool.getTitle());
+                if(tools != null){
+                    for (Tool tool : tools) {
+                        if (tool != null) {
+                            if (tool.getPos() == programmer.getPos()) {
+                                message.append(tool.toolMessage());
+                                programmer.getTools().add(tool.getTitle());
+                            }
                         }
                     }
                 }
@@ -384,7 +388,9 @@ public class GameManager {
         if (i == 1) {
             return true;
         }
+        for(Programmer programmer : programmers){
 
+        }
         for (Programmer programmer : programmers) {
             if (programmer.getId() == idTurn) {
                 if (programmer.getPos() == size) {
