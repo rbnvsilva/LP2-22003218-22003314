@@ -89,7 +89,7 @@ public class Abysse {
         } else if (type == 9) {
             return "Segmentation Fault\nCarambolas, voces sao gordos! Se forem mais de 2 jogadores recuem todos 3 casas";
         } else {
-            return null;
+            return "";
         }
     }
 

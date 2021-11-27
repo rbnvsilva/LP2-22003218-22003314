@@ -60,10 +60,9 @@ public class Tool {
         } else if (type == 4) {
             return "IDE\nTens mesmo sorte! Imune aos seguintes abismos +1 vez:\nDuplicated Code.";
         } else if (type == 5) {
-            return "Ajuda Do Professor\nTens mesmo sorte! Imune aos seguintes abismos +1 vez:\n" +
-                    "Erro de sintaxe, Erro de logica, Exception, File Not Found Exception.";
+            return "Ajuda Do Professor\nTens mesmo sorte! Imune aos seguintes abismos +1 vez:\nErro de sintaxe, Erro de logica, Exception, File Not Found Exception.";
         } else {
-            return null;
+            return "";
         }
     }
 }
