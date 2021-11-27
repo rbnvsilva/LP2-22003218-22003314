@@ -82,8 +82,9 @@ public class Abysse {
             return "Ciclo Infinito\nCarambolas, nao sabes fazer ciclos! Espera que outro jogador te venha ajudar!";
         } else if (type == 9) {
             return "Segmentation Fault\nCarambolas, voces sao gordos! Se forem mais de 2 jogadores recuem todos 3 casas";
+        } else {
+            return null;
         }
-        return "";
     }
 
     public int getPos() {

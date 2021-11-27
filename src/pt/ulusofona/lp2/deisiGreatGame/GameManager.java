@@ -65,6 +65,7 @@ public class GameManager {
         }
         programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
         idTurn = programmers.get(0).getId();
+        programmersInGame = new ArrayList<>(programmers);
         return true;
     }
 
@@ -95,7 +96,6 @@ public class GameManager {
                 }
             }
         }
-        programmersInGame = programmers;
         return true;
     }
 
@@ -178,24 +178,24 @@ public class GameManager {
 
     public String getProgrammersInfo() {
         StringBuilder info = new StringBuilder();
-        StringBuilder tools = new StringBuilder();
         int j = 0;
         for (Programmer programmer : programmers) {
+            StringBuilder tools = new StringBuilder();
             int i = 0;
             for (String tool : programmer.tools) {
                 if (i == programmer.tools.size() - 1) {
                     tools.append(tool);
                 } else {
-                    tools.append(tool).append(";");
+                    tools.append(tool).append("; ");
                 }
                 i++;
             }
-
             if (j == programmers.size() - 1) {
-                info.append(programmer.getName()).append(";").append(tools);
+                info.append(programmer.getName()).append(" : ").append(tools);
             } else {
-                info.append(programmer.getName()).append(";").append(tools).append(" | ");
+                info.append(programmer.getName()).append(" : ").append(tools).append(" | ");
             }
+            j++;
         }
         return info.toString();
     }
@@ -208,7 +208,7 @@ public class GameManager {
         if (nrPositions < 1 || nrPositions > 6) {
             return false;
         }
-        for (Programmer programmer : programmersInGame) {
+        for (Programmer programmer : programmers) {
             if (programmer.getId() == idTurn) {
                 programmer.getOldPos().add(programmer.getPos());
                 if (programmer.podeMover()) {
@@ -227,7 +227,7 @@ public class GameManager {
 
     public String reactToAbyssOrTool() {
         StringBuilder message = new StringBuilder();
-        for (Programmer programmer : programmers) {
+        for (Programmer programmer : programmersInGame) {
             if (programmer.getId() == idTurn) {
                 int posAtual = programmer.getPos();
                 int penultimaPos = 1;
@@ -296,25 +296,27 @@ public class GameManager {
                                 programmer.setPodeMover(false);
                         } else if (abysse.getTitle().equals("Ciclo infinito")) {
                             if (!(programmer.getTools().contains("Programação Funcional"))) {
-                                for (Programmer programmer1 : programmers) {
-                                    if (programmer1.getPos() == programmer.getPos()) {
-                                        programmer.setPodeMover(true);
+                                programmer.setPodeMover(false);
+                                for (Programmer programmer1 : programmersInGame) {
+                                    if (!(programmer1.getName().equals(programmer.getName()))) {
+                                        if (programmer1.getPos() == programmer.getPos()) {
+                                            programmer1.setPodeMover(true);
+                                        }
                                     }
                                 }
-                                programmer.setPodeMover(false);
                             } else {
                                 programmer.getTools().remove("Programação Funcional");
                             }
                         } else if (abysse.getTitle().equals("Segmentation Fault")) {
                             int i = 0;
-                            for (Programmer programmer1 : programmers) {
+                            for (Programmer programmer1 : programmersInGame) {
                                 if (programmer1.getPos() == programmer.getPos()) {
                                     i++;
                                 }
                             }
                             if (!(programmer.getTools().contains("Programação Funcional"))) {
                                 if (i >= 2) {
-                                    for (Programmer programmer1 : programmers) {
+                                    for (Programmer programmer1 : programmersInGame) {
                                         if (programmer1.getPos() == programmer.getPos()) {
                                                 programmer1.move(-3, size);
                                         }
@@ -339,15 +341,23 @@ public class GameManager {
         }
 
         nTurns++;
-        for (Programmer programmer : programmers) {
+        for (Programmer programmer : programmersInGame) {
             if (programmer.getId() > idTurn) {
                 idTurn = programmer.getId();
-                return message.toString();
+                if (message.length() == 0) {
+                    return null;
+                } else {
+                    return message.toString();
+                }
             }
         }
-        idTurn = programmers.get(0).getId();
+        idTurn = programmersInGame.get(0).getId();
 
-        return message.toString();
+        if (message.length() == 0) {
+            return null;
+        } else {
+            return message.toString();
+        }
     }
 
     public boolean gameIsOver() {
