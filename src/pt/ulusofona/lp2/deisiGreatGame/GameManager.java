@@ -191,9 +191,17 @@ public class GameManager {
                 i++;
             }
             if (j == programmers.size() - 1) {
-                info.append(programmer.getName()).append(" : ").append(tools);
+                if (programmer.tools.size() == 0) {
+                    info.append(programmer.getName()).append(" : No tools");
+                } else {
+                    info.append(programmer.getName()).append(" : ").append(tools);
+                }
             } else {
-                info.append(programmer.getName()).append(" : ").append(tools).append(" | ");
+                if (programmer.tools.size() == 0) {
+                    info.append(programmer.getName()).append(" : No tools").append(" | ");
+                } else {
+                    info.append(programmer.getName()).append(" : ").append(tools).append(" | ");
+                }
             }
             j++;
         }
@@ -213,30 +221,27 @@ public class GameManager {
                 programmer.getOldPos().add(programmer.getPos());
                 if (programmer.podeMover()) {
                     programmer.move(nrPositions, size);
+                    return true;
                 } else {
-                    return true;
-                }
-
-                if (programmer.getPos() == size) {
-                    return true;
+                    return false;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     public String reactToAbyssOrTool() {
         StringBuilder message = new StringBuilder();
-        for (Programmer programmer : programmersInGame) {
+        for (Programmer programmer : programmers) {
             if (programmer.getId() == idTurn) {
                 int posAtual = programmer.getPos();
-                int penultimaPos = 1;
-                int antepenultimaPos = 1;
-                try {
+                int penultimaPos = 0;
+                int antepenultimaPos = 0;
+                if (programmer.getOldPos().size() >= 1) {
                     penultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-1);
+                }
+                if (programmer.getOldPos().size() >= 2) {
                     antepenultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-2);
-                } catch(Exception e) {
-
                 }
                 for (Abysse abysse : abysses) {
                     if (abysse.getPos() == programmer.getPos()) {
@@ -293,11 +298,11 @@ public class GameManager {
                                 programmer.getTools().remove("Herança");
                             }
                         } else if (abysse.getTitle().equals("Blue Screen of Death")) {
-                                programmer.setPodeMover(false);
+                                programmers.remove(programmer);
                         } else if (abysse.getTitle().equals("Ciclo infinito")) {
                             if (!(programmer.getTools().contains("Programação Funcional"))) {
                                 programmer.setPodeMover(false);
-                                for (Programmer programmer1 : programmersInGame) {
+                                for (Programmer programmer1 : programmers) {
                                     if (!(programmer1.getName().equals(programmer.getName()))) {
                                         if (programmer1.getPos() == programmer.getPos()) {
                                             programmer1.setPodeMover(true);
@@ -309,14 +314,14 @@ public class GameManager {
                             }
                         } else if (abysse.getTitle().equals("Segmentation Fault")) {
                             int i = 0;
-                            for (Programmer programmer1 : programmersInGame) {
+                            for (Programmer programmer1 : programmers) {
                                 if (programmer1.getPos() == programmer.getPos()) {
                                     i++;
                                 }
                             }
                             if (!(programmer.getTools().contains("Programação Funcional"))) {
                                 if (i >= 2) {
-                                    for (Programmer programmer1 : programmersInGame) {
+                                    for (Programmer programmer1 : programmers) {
                                         if (programmer1.getPos() == programmer.getPos()) {
                                                 programmer1.move(-3, size);
                                         }
@@ -341,7 +346,7 @@ public class GameManager {
         }
 
         nTurns++;
-        for (Programmer programmer : programmersInGame) {
+        for (Programmer programmer : programmers) {
             if (programmer.getId() > idTurn) {
                 idTurn = programmer.getId();
                 if (message.length() == 0) {
@@ -351,7 +356,7 @@ public class GameManager {
                 }
             }
         }
-        idTurn = programmersInGame.get(0).getId();
+        idTurn = programmers.get(0).getId();
 
         if (message.length() == 0) {
             return null;
@@ -361,7 +366,7 @@ public class GameManager {
     }
 
     public boolean gameIsOver() {
-        if (programmersInGame.size() == 1) {
+        if (programmers.size() == 1) {
             return true;
         }
 

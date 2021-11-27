@@ -10,7 +10,7 @@ public class Tool {
         if (type == 0) {
             this.title = "Herança";
         } else if (type == 1) {
-            this.title = "Programação funcional";
+            this.title = "Programação Funcional";
         } else if (type == 2) {
             this.title = "Testes unitários";
         } else if (type == 3) {

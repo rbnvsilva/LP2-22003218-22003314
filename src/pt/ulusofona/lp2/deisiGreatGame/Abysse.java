@@ -58,8 +58,14 @@ public class Abysse {
 
     public String abysseMessage(Programmer programmer) {
         int posAtual = programmer.getPos();
-        int penultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-1);
-        int antepenultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-2);
+        int penultimaPos = 0;
+        int antepenultimaPos = 0;
+        if (programmer.getOldPos().size() >= 1) {
+            penultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-1);
+        }
+        if (programmer.getOldPos().size() >= 2) {
+            antepenultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-2);
+        }
 
         if (type == 0) {
             return "Erro de sintaxe\nOra bolas, nao sabes escrever! Recua 1 casa.";
