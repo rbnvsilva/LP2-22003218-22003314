@@ -92,6 +92,21 @@ public class Programmer {
                 languages.append(listFavLanguages.get(i).trim());
             }
         }
-        return id + " | " + name + " | " + pos + " | " + languages + " | " + gameState;
+        ArrayList<String> toolsArray = new ArrayList<>(tools);
+
+        StringBuilder toolsString = new StringBuilder();
+        for (int i = 0; i < toolsArray.size(); i++) {
+            if (i != toolsArray.size() - 1) {
+                toolsString.append(toolsArray.get(i).trim()).append("; ");
+            } else {
+                toolsString.append(toolsArray.get(i).trim());
+            }
+        }
+
+        if (toolsArray.size() == 0) {
+            return id + " | " + name + " | " + pos + " | No tools" + " | " + languages + " | " + gameState;
+        } else {
+            return id + " | " + name + " | " + pos + " | " + toolsString + " | " + languages + " | " + gameState;
+        }
     }
 }
