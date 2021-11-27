@@ -11,7 +11,6 @@ import java.util.List;
 public class GameManager {
     int size, idTurn, nTurns;
     ArrayList<Programmer> programmers;
-    ArrayList<Programmer> programmersInGame;
     ArrayList<Abysse> abysses;
     ArrayList<Tool> tools;
 
@@ -65,7 +64,6 @@ public class GameManager {
         }
         programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
         idTurn = programmers.get(0).getId();
-        programmersInGame = new ArrayList<>(programmers);
         return true;
     }
 
@@ -222,8 +220,6 @@ public class GameManager {
                 if (programmer.podeMover()) {
                     programmer.move(nrPositions, size);
                     return true;
-                } else {
-                    return false;
                 }
             }
         }
@@ -298,7 +294,7 @@ public class GameManager {
                                 programmer.getTools().remove("Herança");
                             }
                         } else if (abysse.getTitle().equals("Blue Screen of Death")) {
-                                programmers.remove(programmer);
+                                programmer.setPodeMover(false);
                         } else if (abysse.getTitle().equals("Ciclo infinito")) {
                             if (!(programmer.getTools().contains("Programação Funcional"))) {
                                 programmer.setPodeMover(false);
@@ -323,7 +319,7 @@ public class GameManager {
                                 if (i >= 2) {
                                     for (Programmer programmer1 : programmers) {
                                         if (programmer1.getPos() == programmer.getPos()) {
-                                                programmer1.move(-3, size);
+                                            programmer1.move(-3, size);
                                         }
                                     }
                                 }
@@ -366,10 +362,6 @@ public class GameManager {
     }
 
     public boolean gameIsOver() {
-        if (programmers.size() == 1) {
-            return true;
-        }
-
         for (Programmer programmer : programmers) {
             if (programmer.getId() == idTurn) {
                 if (programmer.getPos() == size) {
