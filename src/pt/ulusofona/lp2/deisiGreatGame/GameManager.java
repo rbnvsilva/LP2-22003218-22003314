@@ -195,16 +195,21 @@ public class GameManager {
                 i++;
             }
             if (j == programmers.size() - 1) {
-                if (programmer.tools.size() == 0) {
-                    info.append(programmer.getName()).append(" : No tools");
-                } else {
-                    info.append(programmer.getName()).append(" : ").append(tools);
+                if(!programmer.getGameState().equals("Derrotado")){
+                    if (programmer.tools.size() == 0) {
+                        info.append(programmer.getName()).append(" : No tools");
+                    } else {
+                        info.append(programmer.getName()).append(" : ").append(tools);
+                    }
                 }
+
             } else {
-                if (programmer.tools.size() == 0) {
-                    info.append(programmer.getName()).append(" : No tools").append(" | ");
-                } else {
-                    info.append(programmer.getName()).append(" : ").append(tools).append(" | ");
+                if(!programmer.getGameState().equals("Derrotado")) {
+                    if (programmer.tools.size() == 0) {
+                        info.append(programmer.getName()).append(" : No tools").append(" | ");
+                    } else {
+                        info.append(programmer.getName()).append(" : ").append(tools).append(" | ");
+                    }
                 }
             }
             j++;
@@ -388,9 +393,6 @@ public class GameManager {
         if (i == 1) {
             return true;
         }
-        for(Programmer programmer : programmers){
-
-        }
         for (Programmer programmer : programmers) {
             if (programmer.getId() == idTurn) {
                 if (programmer.getPos() == size) {
@@ -421,7 +423,8 @@ public class GameManager {
             }
         }
         results.add("RESTANTES");
-        programmers.sort(Comparator.comparing(Programmer -> Programmer.getPos()));
+        Comparator<Programmer> compare = Comparator.comparing(Programmer::getPos).thenComparing(Programmer::getName);
+        programmers.sort(compare);
         Collections.reverse(programmers);
         for (Programmer programmer : programmers) {
             if (!programmer.getGameState().equals("Em Jogo")) {
