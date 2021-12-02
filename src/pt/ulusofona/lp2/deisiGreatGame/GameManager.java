@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class GameManager {
-    int size, idTurn, nTurns;
+    int size, idTurn, oldIdTurn, nTurns;
     ArrayList<Programmer> programmers;
     ArrayList<Abysse> abysses;
     ArrayList<Tool> tools;
@@ -64,6 +64,7 @@ public class GameManager {
         }
         programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
         idTurn = programmers.get(0).getId();
+        oldIdTurn = programmers.get(0).getId();
         return true;
     }
 
@@ -265,6 +266,7 @@ public class GameManager {
                                     int posFinal = (int) Math.floor((((double) posAtual - (double) penultimaPos) / 2));
                                     if (!(programmer.getTools().contains("Ajuda Do Professor"))) {
                                         programmer.move(-posFinal, size);
+                                        System.out.println(-posFinal);
                                     } else {
                                         programmer.getTools().remove("Ajuda Do Professor");
                                     }
@@ -312,7 +314,7 @@ public class GameManager {
                                 } else if (abysse.getTitle().equals("Ciclo infinito")) {
                                     if (!(programmer.getTools().contains("Programação Funcional"))) {
                                         programmer.setPodeMover(false);
-                                        for (Programmer programmer1 : programmers) {
+                                        for (Programmer programmer1 : getProgrammers(false)) {
                                             if (!(programmer1.getName().equals(programmer.getName()))) {
                                                 if (programmer1.getPos() == programmer.getPos()) {
                                                     programmer1.setPodeMover(true);
@@ -324,14 +326,14 @@ public class GameManager {
                                     }
                                 } else if (abysse.getTitle().equals("Segmentation Fault")) {
                                     int i = 0;
-                                    for (Programmer programmer1 : programmers) {
+                                    for (Programmer programmer1 : getProgrammers(false)) {
                                         if (programmer1.getPos() == programmer.getPos()) {
                                             i++;
                                         }
                                     }
                                     if (!(programmer.getTools().contains("Herança"))) {
                                         if (i >= 2) {
-                                            for (Programmer programmer1 : programmers) {
+                                            for (Programmer programmer1 : getProgrammers(false)) {
                                                 if (programmer1.getPos() == programmer.getPos()) {
                                                     programmer1.move(-3, size);
                                                 }
@@ -347,7 +349,8 @@ public class GameManager {
                         }
                     }
                 }
-                if(tools != null){
+
+                if (tools != null) {
                     for (Tool tool : tools) {
                         if (tool != null) {
                             if (tool.getPos() == programmer.getPos()) {
@@ -361,7 +364,8 @@ public class GameManager {
         }
 
         nTurns++;
-        for (Programmer programmer : programmers) {
+        oldIdTurn = idTurn;
+        for (Programmer programmer : getProgrammers(false)) {
             if (programmer.getId() > idTurn) {
                 idTurn = programmer.getId();
                 if (message.toString().equals("")) {
@@ -372,7 +376,7 @@ public class GameManager {
             }
         }
 
-        idTurn = programmers.get(0).getId();
+        idTurn = getProgrammers(false).get(0).getId();
         if (message.toString().equals("")) {
             return null;
         } else {
@@ -387,14 +391,16 @@ public class GameManager {
                 i++;
             }
         }
+
         if (i == 1) {
             return true;
         }
+
         for (Programmer programmer : programmers) {
-            if (programmer.getId() == idTurn) {
+            if (programmer.getId() == oldIdTurn) {
                 if (programmer.getPos() == size) {
                     for (Programmer programmers : programmers) {
-                        if (!(programmers.getId() == idTurn)) {
+                        if (!(programmers.getId() == oldIdTurn)) {
                             programmers.setGameState("Derrotado");
                         }
                     }
