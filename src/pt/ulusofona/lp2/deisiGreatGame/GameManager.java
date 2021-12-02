@@ -226,7 +226,7 @@ public class GameManager {
         if (nrPositions < 1 || nrPositions > 6) {
             return false;
         }
-        for (Programmer programmer : programmers) {
+        for (Programmer programmer : getProgrammers(false)) {
             if (programmer.getId() == idTurn) {
                 if (programmer.podeMover()) {
                     programmer.getOldPos().add(programmer.getPos());
@@ -385,14 +385,7 @@ public class GameManager {
     }
 
     public boolean gameIsOver() {
-        int i = 0;
-        for (Programmer programmer : programmers) {
-            if (programmer.getGameState().equals("Em Jogo")) {
-                i++;
-            }
-        }
-
-        if (i == 1) {
+        if (getProgrammers(false).size() == 1) {
             return true;
         }
 
