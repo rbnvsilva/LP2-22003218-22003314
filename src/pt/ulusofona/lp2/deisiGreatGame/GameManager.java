@@ -276,12 +276,8 @@ public class GameManager {
                                     }
                                 } else if (abysse.getTitle().equals("Erro de lógica")) {
                                     int posFinal = (int) Math.floor((((double) posAtual - (double) penultimaPos) / 2));
-                                    if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Testes unitários")) {
-                                        if (!(programmer.getTools().contains("Ajuda Do Professor"))) {
-                                            programmer.getTools().remove("Testes unitários");
-                                        } else {
-                                            programmer.getTools().remove("Ajuda Do Professor");
-                                        }
+                                    if (programmer.getTools().contains("Ajuda Do Professor")) {
+                                        programmer.getTools().remove("Ajuda Do Professor");
                                     } else {
                                         programmer.move(-posFinal, size);
                                     }
@@ -312,8 +308,8 @@ public class GameManager {
                                         programmer.setPos(1);
                                     }
                                 } else if (abysse.getTitle().equals("Duplicated Code")) {
-                                    if (programmer.getTools().contains("IDE")) {
-                                        programmer.getTools().remove("IDE");
+                                    if (programmer.getTools().contains("Herança")) {
+                                        programmer.getTools().remove("Herança");
                                     } else {
                                         programmer.setPos(penultimaPos);
                                     }
@@ -346,16 +342,11 @@ public class GameManager {
                                             i++;
                                         }
                                     }
-                                    if (programmer.getTools().contains("Herança")) {
-                                        if (i >= 2) {
-                                            programmer.getTools().remove("Herança");
-                                        }
-                                    } else {
-                                        if (i >= 2) {
-                                            for (Programmer programmer1 : getProgrammers(false)) {
-                                                if (programmer1.getPos() == programmer.getPos()) {
-                                                    programmer1.move(-3, size);
-                                                }
+
+                                    if (i >= 2) {
+                                        for (Programmer programmer1 : getProgrammers(false)) {
+                                            if (programmer1.getPos() == programmer.getPos()) {
+                                                programmer1.move(-3, size);
                                             }
                                         }
                                     }
