@@ -78,6 +78,18 @@ public class Programmer {
         }
     }
 
+    public String getImage() {
+        if (color == ProgrammerColor.BLUE) {
+            return "playerBlue.png";
+        } else if (color == ProgrammerColor.BROWN) {
+            return "playerBrown.png";
+        } else if (color == ProgrammerColor.GREEN) {
+            return "playerGreen.png";
+        } else {
+            return "playerPurple.png";
+        }
+    }
+
     @Override
     public String toString() {
         ArrayList<String> listFavLanguages = new ArrayList<>();

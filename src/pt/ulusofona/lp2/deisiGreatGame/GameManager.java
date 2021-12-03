@@ -113,6 +113,12 @@ public class GameManager {
             return null;
         }
 
+        for (Programmer programmer : programmers) {
+            if (programmer.getPos() == position) {
+                programmer.getImage();
+            }
+        }
+
         if (position == size) {
             return "glory.png";
         }
@@ -240,7 +246,7 @@ public class GameManager {
 
     public String reactToAbyssOrTool() {
         StringBuilder message = new StringBuilder();
-        for (Programmer programmer : programmers) {
+        for (Programmer programmer : getProgrammers(false)) {
             if (programmer.getId() == idTurn) {
                 int posAtual = programmer.getPos();
                 int penultimaPos = 0;
@@ -248,27 +254,36 @@ public class GameManager {
                 if (programmer.getOldPos().size() >= 1) {
                     penultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-1);
                 }
+
                 if (programmer.getOldPos().size() >= 2) {
                     antepenultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-2);
                 }
-                if(abysses != null){
+
+                if (abysses != null) {
                     for (Abysse abysse : abysses) {
                         if (abysse != null) {
                             if (abysse.getPos() == programmer.getPos()) {
                                 message.append(abysse.abysseMessage(programmer));
                                 if (abysse.getTitle().equals("Erro de sintaxe")) {
-                                    if (!(programmer.getTools().contains("Ajuda Do Professor"))) {
-                                        programmer.move(-1, size);
+                                    if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("IDE")) {
+                                        if (!(programmer.getTools().contains("Ajuda Do Professor"))) {
+                                            programmer.getTools().remove("IDE");
+                                        } else {
+                                            programmer.getTools().remove("Ajuda Do Professor");
+                                        }
                                     } else {
-                                        programmer.getTools().remove("Ajuda Do Professor");
+                                        programmer.move(-1, size);
                                     }
                                 } else if (abysse.getTitle().equals("Erro de lógica")) {
                                     int posFinal = (int) Math.floor((((double) posAtual - (double) penultimaPos) / 2));
-                                    if (!(programmer.getTools().contains("Ajuda Do Professor"))) {
-                                        programmer.move(-posFinal, size);
-                                        System.out.println(-posFinal);
+                                    if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Testes unitários")) {
+                                        if (!(programmer.getTools().contains("Ajuda Do Professor"))) {
+                                            programmer.getTools().remove("Testes unitários");
+                                        } else {
+                                            programmer.getTools().remove("Ajuda Do Professor");
+                                        }
                                     } else {
-                                        programmer.getTools().remove("Ajuda Do Professor");
+                                        programmer.move(-posFinal, size);
                                     }
                                 } else if (abysse.getTitle().equals("Exception")) {
                                     if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Tratamento de Excepções")) {
@@ -291,28 +306,30 @@ public class GameManager {
                                         programmer.move(-3, size);
                                     }
                                 } else if (abysse.getTitle().equals("Crash (aka Rebentanço)")) {
-                                    if (!(programmer.getTools().contains("Testes unitários"))) {
-                                        programmer.setPos(1);
-                                    } else {
+                                    if (programmer.getTools().contains("Testes unitários")) {
                                         programmer.getTools().remove("Testes unitários");
+                                    } else {
+                                        programmer.setPos(1);
                                     }
                                 } else if (abysse.getTitle().equals("Duplicated Code")) {
-                                    if (!(programmer.getTools().contains("IDE"))) {
-                                        programmer.setPos(penultimaPos);
-                                    } else {
+                                    if (programmer.getTools().contains("IDE")) {
                                         programmer.getTools().remove("IDE");
+                                    } else {
+                                        programmer.setPos(penultimaPos);
                                     }
                                 } else if (abysse.getTitle().equals("Efeitos secundários")) {
-                                    if (!(programmer.getTools().contains("Programação Funcional"))) {
-                                        programmer.setPos(antepenultimaPos);
-                                    } else {
+                                    if (programmer.getTools().contains("Programação Funcional")) {
                                         programmer.getTools().remove("Programação Funcional");
+                                    } else {
+                                        programmer.setPos(antepenultimaPos);
                                     }
                                 } else if (abysse.getTitle().equals("Blue Screen of Death")) {
                                     programmer.setPodeMover(false);
                                     programmer.setGameState("Derrotado");
                                 } else if (abysse.getTitle().equals("Ciclo infinito")) {
-                                    if (!(programmer.getTools().contains("Programação Funcional"))) {
+                                    if (programmer.getTools().contains("Programação Funcional")) {
+                                        programmer.getTools().remove("Programação Funcional");
+                                    } else {
                                         programmer.setPodeMover(false);
                                         for (Programmer programmer1 : getProgrammers(false)) {
                                             if (!(programmer1.getName().equals(programmer.getName()))) {
@@ -321,8 +338,6 @@ public class GameManager {
                                                 }
                                             }
                                         }
-                                    } else {
-                                        programmer.getTools().remove("Programação Funcional");
                                     }
                                 } else if (abysse.getTitle().equals("Segmentation Fault")) {
                                     int i = 0;
@@ -331,17 +346,17 @@ public class GameManager {
                                             i++;
                                         }
                                     }
-                                    if (!(programmer.getTools().contains("Herança"))) {
+                                    if (programmer.getTools().contains("Herança")) {
+                                        if (i >= 2) {
+                                            programmer.getTools().remove("Herança");
+                                        }
+                                    } else {
                                         if (i >= 2) {
                                             for (Programmer programmer1 : getProgrammers(false)) {
                                                 if (programmer1.getPos() == programmer.getPos()) {
                                                     programmer1.move(-3, size);
                                                 }
                                             }
-                                        }
-                                    } else {
-                                        if (i >= 2) {
-                                            programmer.getTools().remove("Herança");
                                         }
                                     }
                                 }
