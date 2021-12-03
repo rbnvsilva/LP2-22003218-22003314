@@ -276,8 +276,12 @@ public class GameManager {
                                     }
                                 } else if (abysse.getTitle().equals("Erro de lógica")) {
                                     int posFinal = (int) Math.floor((((double) posAtual - (double) penultimaPos) / 2));
-                                    if (programmer.getTools().contains("Ajuda Do Professor")) {
-                                        programmer.getTools().remove("Ajuda Do Professor");
+                                    if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Testes unitários")) {
+                                        if (!programmer.getTools().contains("Ajuda Do Professor")) {
+                                            programmer.getTools().remove("Testes unitários");
+                                        } else {
+                                            programmer.getTools().remove("Ajuda Do Professor");
+                                        }
                                     } else {
                                         programmer.move(-posFinal, size);
                                     }
@@ -302,11 +306,7 @@ public class GameManager {
                                         programmer.move(-3, size);
                                     }
                                 } else if (abysse.getTitle().equals("Crash (aka Rebentanço)")) {
-                                    if (programmer.getTools().contains("Testes unitários")) {
-                                        programmer.getTools().remove("Testes unitários");
-                                    } else {
-                                        programmer.setPos(1);
-                                    }
+                                    programmer.setPos(1);
                                 } else if (abysse.getTitle().equals("Duplicated Code")) {
                                     if (programmer.getTools().contains("Herança")) {
                                         programmer.getTools().remove("Herança");
