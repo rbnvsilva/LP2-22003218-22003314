@@ -231,10 +231,12 @@ public class GameManager {
         StringBuilder message = new StringBuilder();
         for (Programmer programmer : getProgrammers(false)) {
             if (programmer.getId() == idTurn) {
-                for (AbysseOrTool abysseOrTool : abyssesOrTools) {
-                    if (abysseOrTool.comparePos(programmer.getPos())) {
-                        message.append(abysseOrTool.message());
-                        abysseOrTool.react(programmer, getProgrammers(false), size);
+                if(abyssesOrTools != null) {
+                    for (AbysseOrTool abysseOrTool : abyssesOrTools) {
+                        if (abysseOrTool.comparePos(programmer.getPos())) {
+                            message.append(abysseOrTool.message());
+                            abysseOrTool.react(programmer, getProgrammers(false), size);
+                        }
                     }
                 }
             }
@@ -263,7 +265,7 @@ public class GameManager {
     }
 
     public boolean gameIsOver() {
-        if (getProgrammers(false).size() == 1) {
+        if (getProgrammers(false).size() < 2) {
             return true;
         }
 

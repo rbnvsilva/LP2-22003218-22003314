@@ -2,3 +2,7 @@
 Diagrama UML
 
 ![](diagrama.png?raw=true "Diagrama UML")
+
+Tabela
+
+![](tabela.png?raw=true "Tabela")
