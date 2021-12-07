@@ -1,12 +1,11 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
-public class Tool {
-    String title;
-    int type, pos;
+import java.util.List;
+
+public class Tool extends AbysseOrTool {
 
     public Tool(int type, int pos) {
-        this.type = type;
-        this.pos = pos;
+        super(type, pos);
         if (type == 0) {
             this.title = "Herança";
         } else if (type == 1) {
@@ -21,15 +20,7 @@ public class Tool {
             this.title = "Ajuda Do Professor";
         }
     }
-
-    public int getPos() {
-        return pos;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
+    @Override
     public String getImage() {
         if (type == 0) {
             return "inheritance.png";
@@ -47,8 +38,8 @@ public class Tool {
 
         return "";
     }
-
-    public String toolMessage() {
+    @Override
+    public String message() {
         if (type == 0) {
             return "Herança\nTens mesmo sorte! Imune ao abismo Efeitos Secundários +1 vez.";
         } else if (type == 1) {
@@ -64,5 +55,9 @@ public class Tool {
         } else {
             return "";
         }
+    }
+    @Override
+    public void react(Programmer programmer, List<Programmer> programmers, int size) {
+        programmer.getTools().add(title);
     }
 }
