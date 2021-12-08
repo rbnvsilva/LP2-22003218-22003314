@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Abysse extends AbysseOrTool {
 
-    public Abysse(int type, int pos) {
+    protected Abysse(int type, int pos) {
         super(type, pos);
         if (type == 0) {
             this.title = "Erro de sintaxe";
@@ -30,7 +30,7 @@ public class Abysse extends AbysseOrTool {
         }
     }
     @Override
-    public String getImage() {
+    protected String getImage() {
         if (type == 0) {
             return "syntax.png";
         } else if (type == 1) {
@@ -56,7 +56,7 @@ public class Abysse extends AbysseOrTool {
         return "";
     }
     @Override
-    public String message() {
+    protected String message() {
         if (type == 0) {
             return "Erro de sintaxe\nOra bolas, nao sabes escrever! Recua 1 casa.";
         } else if (type == 1) {
@@ -82,7 +82,7 @@ public class Abysse extends AbysseOrTool {
         }
     }
     @Override
-    public void react(Programmer programmer, List<Programmer> programmers, int size){
+    protected void react(Programmer programmer, List<Programmer> programmers, int size){
         int posAtual = programmer.getPos();
         int penultimaPos = 0;
         int antepenultimaPos = 0;
@@ -179,6 +179,7 @@ public class Abysse extends AbysseOrTool {
                 }
             }
         }
+
     }
 
 }

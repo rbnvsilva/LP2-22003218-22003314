@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Tool extends AbysseOrTool {
 
-    public Tool(int type, int pos) {
+    protected Tool(int type, int pos) {
         super(type, pos);
         if (type == 0) {
             this.title = "Herança";
@@ -21,7 +21,7 @@ public class Tool extends AbysseOrTool {
         }
     }
     @Override
-    public String getImage() {
+    protected String getImage() {
         if (type == 0) {
             return "inheritance.png";
         } else if (type == 1) {
@@ -39,7 +39,7 @@ public class Tool extends AbysseOrTool {
         return "";
     }
     @Override
-    public String message() {
+    protected String message() {
         if (type == 0) {
             return "Herança\nTens mesmo sorte! Imune ao abismo Efeitos Secundários +1 vez.";
         } else if (type == 1) {
@@ -57,7 +57,7 @@ public class Tool extends AbysseOrTool {
         }
     }
     @Override
-    public void react(Programmer programmer, List<Programmer> programmers, int size) {
+    protected void react(Programmer programmer, List<Programmer> programmers, int size) {
         programmer.getTools().add(title);
     }
 }

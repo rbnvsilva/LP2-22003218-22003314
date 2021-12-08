@@ -8,9 +8,9 @@ import java.util.HashSet;
 import java.util.List;
 
 public class GameManager {
-    int size, idTurn, oldIdTurn, nTurns;
-    ArrayList<Programmer> programmers;
-    ArrayList<AbysseOrTool> abyssesOrTools;
+    private int size, idTurn, nTurns;
+    private ArrayList<Programmer> programmers;
+    private ArrayList<AbysseOrTool> abyssesOrTools;
 
     public GameManager() {
 
@@ -62,7 +62,6 @@ public class GameManager {
         }
         programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
         idTurn = programmers.get(0).getId();
-        oldIdTurn = programmers.get(0).getId();
         return true;
     }
 
@@ -176,8 +175,8 @@ public class GameManager {
         for (Programmer programmer : programmers) {
             StringBuilder tools = new StringBuilder();
             int i = 0;
-            for (String tool : programmer.tools) {
-                if (i == programmer.tools.size() - 1) {
+            for (String tool : programmer.getTools()) {
+                if (i == programmer.getTools().size() - 1) {
                     tools.append(tool);
                 } else {
                     tools.append(tool).append("; ");
@@ -186,7 +185,7 @@ public class GameManager {
             }
             if (j == programmers.size() - 1) {
                 if(!programmer.getGameState().equals("Derrotado")){
-                    if (programmer.tools.size() == 0) {
+                    if (programmer.getTools().size() == 0) {
                         info.append(programmer.getName()).append(" : No tools");
                     } else {
                         info.append(programmer.getName()).append(" : ").append(tools);
@@ -195,7 +194,7 @@ public class GameManager {
 
             } else {
                 if(!programmer.getGameState().equals("Derrotado")) {
-                    if (programmer.tools.size() == 0) {
+                    if (programmer.getTools().size() == 0) {
                         info.append(programmer.getName()).append(" : No tools").append(" | ");
                     } else {
                         info.append(programmer.getName()).append(" : ").append(tools).append(" | ");
@@ -243,7 +242,6 @@ public class GameManager {
         }
 
         nTurns++;
-        oldIdTurn = idTurn;
         for (Programmer programmer : getProgrammers(false)) {
 
             if (programmer.getId() > idTurn) {
@@ -268,17 +266,13 @@ public class GameManager {
         if (getProgrammers(false).size() < 2) {
             return true;
         }
-
-        for (Programmer programmer : programmers) {
-            if (programmer.getId() == oldIdTurn) {
-                if (programmer.getPos() == size) {
-                    for (Programmer programmers : programmers) {
-                        if (!(programmers.getId() == oldIdTurn)) {
-                            programmers.setGameState("Derrotado");
-                        }
-                    }
-                    return true;
+        for (Programmer programmer : getProgrammers(false)) {
+            if (programmer.getPos() == size) {
+                for (Programmer programmers : programmers) {
+                    programmers.setGameState("Derrotado");
                 }
+                programmer.setGameState("Em Jogo");
+                return true;
             }
         }
         return false;

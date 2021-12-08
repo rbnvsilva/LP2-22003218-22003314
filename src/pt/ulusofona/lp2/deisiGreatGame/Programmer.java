@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.HashSet;
 
 public class Programmer {
-    int id, pos;
-    String name, gameState, favLanguages;
-    ProgrammerColor color;
-    HashSet<String> tools;
-    ArrayList<Integer> oldPos;
-    boolean podeMover = true;
+    private int id, pos;
+    private String name, gameState, favLanguages;
+    private ProgrammerColor color;
+    private HashSet<String> tools;
+    private ArrayList<Integer> oldPos;
+    private boolean podeMover = true;
 
     public Programmer(int id, String name, String favLanguages, ProgrammerColor color) {
         this.id = id;
@@ -38,6 +38,7 @@ public class Programmer {
     public HashSet<String> getTools() {
         return tools;
     }
+
     public String getName() {
         return name;
     }
