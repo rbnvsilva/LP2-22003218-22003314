@@ -1,6 +1,5 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbysseOrTool {
@@ -11,6 +10,7 @@ public abstract class AbysseOrTool {
         this.type = type;
         this.pos = pos;
     }
+
     protected int getPos() {
         return pos;
     }
@@ -22,8 +22,10 @@ public abstract class AbysseOrTool {
     protected abstract String getImage();
 
     protected abstract String message();
-    protected boolean comparePos(int pos){
+
+    protected boolean comparePos(int pos) {
         return this.pos == pos;
     }
+
     protected abstract void react(Programmer programmer, List<Programmer> programmers, int size);
 }

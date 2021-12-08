@@ -1,6 +1,5 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Abysse extends AbysseOrTool {
@@ -29,6 +28,7 @@ public class Abysse extends AbysseOrTool {
             this.title = "Segmentation Fault";
         }
     }
+
     @Override
     protected String getImage() {
         if (type == 0) {
@@ -55,6 +55,7 @@ public class Abysse extends AbysseOrTool {
 
         return "";
     }
+
     @Override
     protected String message() {
         if (type == 0) {
@@ -81,16 +82,17 @@ public class Abysse extends AbysseOrTool {
             return "";
         }
     }
+
     @Override
-    protected void react(Programmer programmer, List<Programmer> programmers, int size){
+    protected void react(Programmer programmer, List<Programmer> programmers, int size) {
         int posAtual = programmer.getPos();
         int penultimaPos = 0;
         int antepenultimaPos = 0;
         if (programmer.getOldPos().size() >= 1) {
-            penultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-1);
+            penultimaPos = programmer.getOldPos().get(programmer.getOldPos().size() - 1);
         }
         if (programmer.getOldPos().size() >= 2) {
-            antepenultimaPos = programmer.getOldPos().get(programmer.getOldPos().size()-2);
+            antepenultimaPos = programmer.getOldPos().get(programmer.getOldPos().size() - 2);
         }
         if (title.equals("Erro de sintaxe")) {
             if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("IDE")) {

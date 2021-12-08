@@ -20,6 +20,7 @@ public class Tool extends AbysseOrTool {
             this.title = "Ajuda Do Professor";
         }
     }
+
     @Override
     protected String getImage() {
         if (type == 0) {
@@ -38,6 +39,7 @@ public class Tool extends AbysseOrTool {
 
         return "";
     }
+
     @Override
     protected String message() {
         if (type == 0) {
@@ -56,6 +58,7 @@ public class Tool extends AbysseOrTool {
             return "";
         }
     }
+
     @Override
     protected void react(Programmer programmer, List<Programmer> programmers, int size) {
         programmer.getTools().add(title);

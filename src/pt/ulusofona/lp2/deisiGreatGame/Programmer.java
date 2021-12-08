@@ -43,12 +43,12 @@ public class Programmer {
         return name;
     }
 
-    public void setPos(int value) {
-        pos = value;
-    }
-
     public int getPos() {
         return pos;
+    }
+
+    public void setPos(int value) {
+        pos = value;
     }
 
     public ArrayList<Integer> getOldPos() {
@@ -59,7 +59,7 @@ public class Programmer {
         this.podeMover = podeMover;
     }
 
-    public boolean podeMover(){
+    public boolean podeMover() {
         return podeMover;
     }
 

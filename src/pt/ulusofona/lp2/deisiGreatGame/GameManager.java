@@ -13,7 +13,6 @@ public class GameManager {
     private ArrayList<AbysseOrTool> abyssesOrTools;
 
     public GameManager() {
-
     }
 
     public boolean createInitialBoard(String[][] playerInfo, int worldSize) {
@@ -118,7 +117,7 @@ public class GameManager {
             return "glory.png";
         }
 
-        for (AbysseOrTool abysseOrTool: abyssesOrTools) {
+        for (AbysseOrTool abysseOrTool : abyssesOrTools) {
             if (abysseOrTool.comparePos(position)) {
                 return abysseOrTool.getImage();
             }
@@ -131,7 +130,7 @@ public class GameManager {
             return null;
         }
 
-        for (AbysseOrTool abysseOrTool: abyssesOrTools) {
+        for (AbysseOrTool abysseOrTool : abyssesOrTools) {
             if (abysseOrTool.comparePos(position)) {
                 return abysseOrTool.getTitle();
             }
@@ -184,7 +183,7 @@ public class GameManager {
                 i++;
             }
             if (j == programmers.size() - 1) {
-                if(!programmer.getGameState().equals("Derrotado")){
+                if (!programmer.getGameState().equals("Derrotado")) {
                     if (programmer.getTools().size() == 0) {
                         info.append(programmer.getName()).append(" : No tools");
                     } else {
@@ -193,7 +192,7 @@ public class GameManager {
                 }
 
             } else {
-                if(!programmer.getGameState().equals("Derrotado")) {
+                if (!programmer.getGameState().equals("Derrotado")) {
                     if (programmer.getTools().size() == 0) {
                         info.append(programmer.getName()).append(" : No tools").append(" | ");
                     } else {
@@ -230,7 +229,7 @@ public class GameManager {
         StringBuilder message = new StringBuilder();
         for (Programmer programmer : getProgrammers(false)) {
             if (programmer.getId() == idTurn) {
-                if(abyssesOrTools != null) {
+                if (abyssesOrTools != null) {
                     for (AbysseOrTool abysseOrTool : abyssesOrTools) {
                         if (abysseOrTool.comparePos(programmer.getPos())) {
                             message.append(abysseOrTool.message());
