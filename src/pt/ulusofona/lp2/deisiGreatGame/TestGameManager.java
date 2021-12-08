@@ -84,6 +84,33 @@ public class TestGameManager {
     }
 
     @Test
+    public void testInvalidMove() {
+        String[][] abyssesAndTools = new String[1][3];
+        String[][] playerInfo = new String[4][4];
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Rui";
+        playerInfo[0][2] = "Java;";
+        playerInfo[0][3] = "Blue";
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Fiona";
+        playerInfo[1][2] = "Python;";
+        playerInfo[1][3] = "Purple";
+        playerInfo[2][0] = "3";
+        playerInfo[2][1] = "Ruben";
+        playerInfo[2][2] = "Java;";
+        playerInfo[2][3] = "Green";
+        playerInfo[3][0] = "4";
+        playerInfo[3][1] = "Simão";
+        playerInfo[3][2] = "Python;";
+        playerInfo[3][3] = "Brown";
+        abyssesAndTools[0][0] = "0";
+        abyssesAndTools[0][1] = "7";
+        abyssesAndTools[0][2] = "2";
+        gameManager.createInitialBoard(playerInfo, 79, abyssesAndTools);
+        assertFalse(gameManager.moveCurrentPlayer(-1));
+    }
+
+    @Test
     public void testGameIsOver() {
         String[][] abyssesAndTools = new String[1][3];
         String[][] playerInfo = new String[4][4];
@@ -107,24 +134,14 @@ public class TestGameManager {
         abyssesAndTools[0][1] = "7";
         abyssesAndTools[0][2] = "2";
         gameManager.createInitialBoard(playerInfo, 79, abyssesAndTools);
-        assertEquals(ProgrammerColor.BLUE, gameManager.getProgrammers(false).get(0).getColor());
-        assertFalse(gameManager.moveCurrentPlayer(-1));
-        gameManager.getProgrammers(false).get(0).move(-5, 79);
-        gameManager.getProgrammers(false).get(0).setPodeMover(false);
-        assertFalse(gameManager.moveCurrentPlayer(1));
-        gameManager.getProgrammers(false).get(0).setPodeMover(true);
         gameManager.moveCurrentPlayer(1);
-        gameManager.getProgrammers(false).get(0).setPos(2);
         gameManager.reactToAbyssOrTool();
-        assertEquals(2, gameManager.getProgrammers(true).get(0).getPos());
         assertFalse(gameManager.gameIsOver());
         gameManager.moveCurrentPlayer(1);
         gameManager.reactToAbyssOrTool();
-        assertEquals(2, gameManager.getProgrammers(true).get(1).getPos());
         assertFalse(gameManager.gameIsOver());
         gameManager.moveCurrentPlayer(1);
         gameManager.reactToAbyssOrTool();
-        assertEquals(2, gameManager.getProgrammers(true).get(2).getPos());
         assertTrue(gameManager.gameIsOver());
     }
 
@@ -169,7 +186,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void testMoveWrongToolIntoAbyss() {
+    public void testMoveWithWrongToolIntoAbyss() {
         String[][] abyssesAndTools = new String[2][3];
         String[][] playerInfo = new String[2][4];
         playerInfo[0][0] = "1";
@@ -408,37 +425,5 @@ public class TestGameManager {
         gameManager.moveCurrentPlayer(2);
         gameManager.reactToAbyssOrTool();
         assertEquals("Rui : Herança; Programação Funcional | Fiona : Programação Funcional", gameManager.getProgrammersInfo());
-    }
-
-    @Test
-    public void testProgrammerToString() {
-        String[][] abyssesAndTools = new String[3][3];
-        String[][] playerInfo = new String[2][4];
-        playerInfo[0][0] = "1";
-        playerInfo[0][1] = "Rui";
-        playerInfo[0][2] = "Java; Python";
-        playerInfo[0][3] = "Blue";
-        playerInfo[1][0] = "2";
-        playerInfo[1][1] = "Fiona";
-        playerInfo[1][2] = "Python;";
-        playerInfo[1][3] = "Purple";
-        abyssesAndTools[0][0] = "1";
-        abyssesAndTools[0][1] = "0";
-        abyssesAndTools[0][2] = "3";
-        abyssesAndTools[1][0] = "0";
-        abyssesAndTools[1][1] = "0";
-        abyssesAndTools[1][2] = "19";
-        abyssesAndTools[2][0] = "1";
-        abyssesAndTools[2][1] = "1";
-        abyssesAndTools[2][2] = "5";
-        gameManager.createInitialBoard(playerInfo, 24, abyssesAndTools);
-        assertEquals("1 | Rui | 1 | No tools | Python; Java | Em Jogo", gameManager.getProgrammers(false).get(0).toString());
-        gameManager.moveCurrentPlayer(2);
-        gameManager.reactToAbyssOrTool();
-        gameManager.moveCurrentPlayer(1);
-        gameManager.reactToAbyssOrTool();
-        gameManager.moveCurrentPlayer(2);
-        gameManager.reactToAbyssOrTool();
-        assertEquals("1 | Rui | 5 | Herança; Programação Funcional | Python; Java | Em Jogo", gameManager.getProgrammers(false).get(0).toString());
     }
 }
