@@ -59,13 +59,7 @@ public class Programmer {
         this.podeMover = podeMover;
     }
 
-    public boolean podeMover() {
-        return podeMover;
-    }
-
-    public ProgrammerColor getColor() {
-        return this.color;
-    }
+    public boolean podeMover() {return this.podeMover;}
 
     public void move(int value, int size) {
         int excess;
@@ -76,18 +70,6 @@ public class Programmer {
             pos = size + excess;
         } else {
             pos += value;
-        }
-    }
-
-    public String getImage() {
-        if (color == ProgrammerColor.BLUE) {
-            return "playerBlue.png";
-        } else if (color == ProgrammerColor.BROWN) {
-            return "playerBrown.png";
-        } else if (color == ProgrammerColor.GREEN) {
-            return "playerGreen.png";
-        } else {
-            return "playerPurple.png";
         }
     }
 

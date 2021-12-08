@@ -107,12 +107,6 @@ public class GameManager {
             return null;
         }
 
-        for (Programmer programmer : programmers) {
-            if (programmer.getPos() == position) {
-                programmer.getImage();
-            }
-        }
-
         if (position == size) {
             return "glory.png";
         }
