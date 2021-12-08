@@ -2,9 +2,9 @@ package pt.ulusofona.lp2.deisiGreatGame;
 
 import java.util.List;
 
-public class Abysse extends AbysseOrTool {
+public class Abyss extends AbyssOrTool {
 
-    protected Abysse(int type, int pos) {
+    protected Abyss(int type, int pos) {
         super(type, pos);
         if (type == 0) {
             this.title = "Erro de sintaxe";

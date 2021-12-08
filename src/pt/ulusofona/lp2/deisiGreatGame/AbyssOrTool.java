@@ -2,11 +2,11 @@ package pt.ulusofona.lp2.deisiGreatGame;
 
 import java.util.List;
 
-public abstract class AbysseOrTool {
+public abstract class AbyssOrTool {
     protected String title;
     protected int type, pos;
 
-    protected AbysseOrTool(int type, int pos) {
+    protected AbyssOrTool(int type, int pos) {
         this.type = type;
         this.pos = pos;
     }

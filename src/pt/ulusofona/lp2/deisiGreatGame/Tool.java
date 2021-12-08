@@ -2,7 +2,7 @@ package pt.ulusofona.lp2.deisiGreatGame;
 
 import java.util.List;
 
-public class Tool extends AbysseOrTool {
+public class Tool extends AbyssOrTool {
 
     protected Tool(int type, int pos) {
         super(type, pos);

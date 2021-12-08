@@ -10,7 +10,7 @@ import java.util.List;
 public class GameManager {
     private int size, idTurn, nTurns;
     private ArrayList<Programmer> programmers;
-    private ArrayList<AbysseOrTool> abyssesOrTools;
+    private ArrayList<AbyssOrTool> abyssesOrTools;
 
     public GameManager() {
     }
@@ -71,28 +71,28 @@ public class GameManager {
 
         abyssesOrTools = new ArrayList<>();
         if (abyssesAndTools != null) {
-            for (String[] abysseOrToolArray : abyssesAndTools) {
-                if ((Integer.parseInt(abysseOrToolArray[0]) > 1) || (Integer.parseInt(abysseOrToolArray[0]) < 0)) {
+            for (String[] abyssOrToolArray : abyssesAndTools) {
+                if ((Integer.parseInt(abyssOrToolArray[0]) > 1) || (Integer.parseInt(abyssOrToolArray[0]) < 0)) {
                     return false;
                 } else {
-                    if (abysseOrToolArray[0].equals("0")) {
-                        if ((Integer.parseInt(abysseOrToolArray[1]) > 9) || (Integer.parseInt(abysseOrToolArray[1]) < 0)) {
+                    if (abyssOrToolArray[0].equals("0")) {
+                        if ((Integer.parseInt(abyssOrToolArray[1]) > 9) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
                             return false;
                         } else {
-                            if ((Integer.parseInt(abysseOrToolArray[2]) < 1) || (Integer.parseInt(abysseOrToolArray[2]) > worldSize)) {
+                            if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
                                 return false;
                             } else {
-                                abyssesOrTools.add(new Abysse(Integer.parseInt(abysseOrToolArray[1]), Integer.parseInt(abysseOrToolArray[2])));
+                                abyssesOrTools.add(new Abyss(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
                             }
                         }
-                    } else if (abysseOrToolArray[0].equals("1")) {
-                        if ((Integer.parseInt(abysseOrToolArray[1]) > 5) || (Integer.parseInt(abysseOrToolArray[1]) < 0)) {
+                    } else if (abyssOrToolArray[0].equals("1")) {
+                        if ((Integer.parseInt(abyssOrToolArray[1]) > 5) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
                             return false;
                         } else {
-                            if ((Integer.parseInt(abysseOrToolArray[2]) < 1) || (Integer.parseInt(abysseOrToolArray[2]) > worldSize)) {
+                            if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
                                 return false;
                             } else {
-                                abyssesOrTools.add(new Tool(Integer.parseInt(abysseOrToolArray[1]), Integer.parseInt(abysseOrToolArray[2])));
+                                abyssesOrTools.add(new Tool(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
                             }
                         }
                     }
@@ -111,9 +111,9 @@ public class GameManager {
             return "glory.png";
         }
 
-        for (AbysseOrTool abysseOrTool : abyssesOrTools) {
-            if (abysseOrTool.comparePos(position)) {
-                return abysseOrTool.getImage();
+        for (AbyssOrTool abyssOrTool : abyssesOrTools) {
+            if (abyssOrTool.comparePos(position)) {
+                return abyssOrTool.getImage();
             }
         }
         return null;
@@ -124,9 +124,9 @@ public class GameManager {
             return null;
         }
 
-        for (AbysseOrTool abysseOrTool : abyssesOrTools) {
-            if (abysseOrTool.comparePos(position)) {
-                return abysseOrTool.getTitle();
+        for (AbyssOrTool abyssOrTool : abyssesOrTools) {
+            if (abyssOrTool.comparePos(position)) {
+                return abyssOrTool.getTitle();
             }
         }
         return null;
@@ -225,10 +225,10 @@ public class GameManager {
         for (Programmer programmer : getProgrammers(false)) {
             if (programmer.getId() == idTurn) {
                 if (abyssesOrTools != null) {
-                    for (AbysseOrTool abysseOrTool : abyssesOrTools) {
-                        if (abysseOrTool.comparePos(programmer.getPos())) {
-                            message.append(abysseOrTool.message());
-                            abysseOrTool.react(programmer, getProgrammers(false), size);
+                    for (AbyssOrTool abyssOrTool : abyssesOrTools) {
+                        if (abyssOrTool.comparePos(programmer.getPos())) {
+                            message.append(abyssOrTool.message());
+                            abyssOrTool.react(programmer, getProgrammers(false), size);
                         }
                     }
                 }
@@ -237,7 +237,6 @@ public class GameManager {
 
         nTurns++;
         for (Programmer programmer : getProgrammers(false)) {
-
             if (programmer.getId() > idTurn) {
                 idTurn = programmer.getId();
                 if (message.toString().equals("")) {
@@ -297,7 +296,7 @@ public class GameManager {
         return results;
     }
 
-    public ArrayList<AbysseOrTool> getAbyssesOrTools() {
+    public ArrayList<AbyssOrTool> getAbyssesOrTools() {
         return abyssesOrTools;
     }
 
