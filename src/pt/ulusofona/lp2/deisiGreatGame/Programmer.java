@@ -73,6 +73,10 @@ public class Programmer {
         }
     }
 
+    public ProgrammerColor getColor() {
+        return color;
+    }
+
     @Override
     public String toString() {
         ArrayList<String> listFavLanguages = new ArrayList<>();

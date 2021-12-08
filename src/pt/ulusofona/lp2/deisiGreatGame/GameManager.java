@@ -207,6 +207,7 @@ public class GameManager {
         if (nrPositions < 1 || nrPositions > 6) {
             return false;
         }
+
         for (Programmer programmer : getProgrammers(false)) {
             if (programmer.getId() == idTurn) {
                 if (programmer.podeMover()) {
@@ -294,6 +295,10 @@ public class GameManager {
             }
         }
         return results;
+    }
+
+    public ArrayList<AbysseOrTool> getAbyssesOrTools() {
+        return abyssesOrTools;
     }
 
     public JPanel getAuthorsPanel() {
