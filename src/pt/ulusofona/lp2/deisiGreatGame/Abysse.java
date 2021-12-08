@@ -52,7 +52,6 @@ public class Abysse extends AbysseOrTool {
         } else if (type == 9) {
             return "core-dumped.png";
         }
-
         return "";
     }
 
@@ -181,7 +180,5 @@ public class Abysse extends AbysseOrTool {
                 }
             }
         }
-
     }
-
 }
