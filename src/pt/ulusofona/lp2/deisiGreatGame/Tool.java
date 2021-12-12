@@ -43,17 +43,17 @@ public class Tool extends AbyssOrTool {
     @Override
     protected String message() {
         if (type == 0) {
-            return "Herança\nTens mesmo sorte! Imune ao abismo Efeitos Secundários +1 vez.";
+            return "Herança\nTens mesmo sorte! Imune ao abismo Duplicated Code 1 vez.";
         } else if (type == 1) {
-            return "Programação funcional\nTens mesmo sorte! Imune aos seguintes abismos +1 vez:\nCiclo Infinito e Segmentation Fault.";
+            return "Programação funcional\nTens mesmo sorte! Imune aos seguintes abismos 1 vez:\nCiclo Infinito e Efeitos secundários.";
         } else if (type == 2) {
-            return "Testes unitários\nTens mesmo sorte! Imune aos seguintes abismos +1 vez:\nCrash (aka Rebentanco).";
+            return "Testes unitários\nTens mesmo sorte! Imune aos seguintes abismos 1 vez:\nErro de lógica.";
         } else if (type == 3) {
-            return "Tratamento de Excepções\nTens mesmo sorte! Imune aos seguintes abismos +1 vez:\nException e File Not Found Exception.";
+            return "Tratamento de Excepções\nTens mesmo sorte! Imune aos seguintes abismos 1 vez:\nException e File Not Found Exception.";
         } else if (type == 4) {
-            return "IDE\nTens mesmo sorte! Imune aos seguintes abismos +1 vez:\nDuplicated Code.";
+            return "IDE\nTens mesmo sorte! Imune aos seguintes abismos 1 vez:\nErro de sintaxe.";
         } else if (type == 5) {
-            return "Ajuda Do Professor\nTens mesmo sorte! Imune aos seguintes abismos +1 vez:\nErro de sintaxe, Erro de logica, Exception, File Not Found Exception.";
+            return "Ajuda Do Professor\nTens mesmo sorte! Imune aos seguintes abismos 1 vez:\nErro de sintaxe, Erro de lógica, Exception, File Not Found Exception.";
         } else {
             return "";
         }

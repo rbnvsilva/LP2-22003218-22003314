@@ -222,13 +222,17 @@ public class GameManager {
 
     public String reactToAbyssOrTool() {
         StringBuilder message = new StringBuilder();
+        int i = 0;
         for (Programmer programmer : getProgrammers(false)) {
             if (programmer.getId() == idTurn) {
                 if (abyssesOrTools != null) {
                     for (AbyssOrTool abyssOrTool : abyssesOrTools) {
                         if (abyssOrTool.comparePos(programmer.getPos())) {
-                            message.append(abyssOrTool.message());
-                            abyssOrTool.react(programmer, getProgrammers(false), size);
+                            if (i == 0) {
+                                message.append(abyssOrTool.message());
+                                abyssOrTool.react(programmer, getProgrammers(false), size);
+                            }
+                            i++;
                         }
                     }
                 }
