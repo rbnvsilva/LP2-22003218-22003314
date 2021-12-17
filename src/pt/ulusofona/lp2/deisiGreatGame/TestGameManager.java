@@ -426,4 +426,9 @@ public class TestGameManager {
         gameManager.reactToAbyssOrTool();
         assertEquals("Rui : Herança; Programação Funcional | Fiona : Programação Funcional", gameManager.getProgrammersInfo());
     }
+
+    @Test
+    public void testJPanel() {
+        assertTrue(gameManager.getAuthorsPanel().isOpaque());
+    }
 }
