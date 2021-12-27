@@ -2,21 +2,23 @@ package pt.ulusofona.lp2.deisiGreatGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.io.File;
+import java.util.*;
 import java.util.List;
 
 public class GameManager {
     private int size, idTurn, nTurns;
     private ArrayList<Programmer> programmers;
     private ArrayList<AbyssOrTool> abyssesOrTools;
+    private HashMap<Integer, Integer> positions;
+    private HashMap<AbyssOrTool, Integer> abysses;
 
     public GameManager() {
     }
 
-    public boolean createInitialBoard(String[][] playerInfo, int worldSize) {
+    public void createInitialBoard(String[][] playerInfo, int worldSize) throws InvalidInitialBoardException {
         nTurns = 1;
+        positions = new HashMap<>();
         programmers = new ArrayList<>();
         HashSet<Integer> ids = new HashSet<>();
         HashSet<ProgrammerColor> colors = new HashSet<>();
@@ -24,16 +26,16 @@ public class GameManager {
         size = worldSize;
 
         if (playerInfo.length > 4 || playerInfo.length < 2 || worldSize < playerInfo.length * 2) {
-            return false;
+            throw new InvalidInitialBoardException("Dimensoes incorretas");
         } else {
             for (String[] info : playerInfo) {
                 if (info[0] != null && (info[1] != null && !info[1].equals(""))
                         && info[2] != null && info[3] != null) {
                     if (Integer.parseInt(info[0]) <= 0) {
-                        return false;
+                        throw new InvalidInitialBoardException("Id invalido");
                     }
                     if (ids.contains(Integer.parseInt(info[0]))) {
-                        return false;
+                        throw new InvalidInitialBoardException("Id repetido");
                     } else {
                         ids.add(Integer.parseInt(info[0]));
                     }
@@ -49,7 +51,7 @@ public class GameManager {
                             color = ProgrammerColor.BROWN;
                         }
                         if (colors.contains(color)) {
-                            return false;
+                            throw new InvalidInitialBoardException("Cor repetida");
                         } else {
                             colors.add(color);
                         }
@@ -61,36 +63,33 @@ public class GameManager {
         }
         programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
         idTurn = programmers.get(0).getId();
-        return true;
     }
 
-    public boolean createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) {
-        if (!createInitialBoard(playerInfo, worldSize)) {
-            return false;
-        }
-
+    public void createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) throws InvalidInitialBoardException {
+        createInitialBoard(playerInfo, worldSize);
         abyssesOrTools = new ArrayList<>();
+        abysses = new HashMap<>();
         if (abyssesAndTools != null) {
             for (String[] abyssOrToolArray : abyssesAndTools) {
                 if ((Integer.parseInt(abyssOrToolArray[0]) > 1) || (Integer.parseInt(abyssOrToolArray[0]) < 0)) {
-                    return false;
+                    throw new InvalidInitialBoardException("Id invalido");
                 } else {
                     if (abyssOrToolArray[0].equals("0")) {
                         if ((Integer.parseInt(abyssOrToolArray[1]) > 9) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
-                            return false;
+                            throw new InvalidInitialBoardException("Erro de abismo");
                         } else {
                             if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
-                                return false;
+                                throw new InvalidInitialBoardException("Erro de abismo");
                             } else {
                                 abyssesOrTools.add(new Abyss(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
                             }
                         }
                     } else if (abyssOrToolArray[0].equals("1")) {
                         if ((Integer.parseInt(abyssOrToolArray[1]) > 5) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
-                            return false;
+                            throw new InvalidInitialBoardException("Erro de tool");
                         } else {
                             if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
-                                return false;
+                                throw new InvalidInitialBoardException("Erro de tool");
                             } else {
                                 abyssesOrTools.add(new Tool(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
                             }
@@ -99,7 +98,6 @@ public class GameManager {
                 }
             }
         }
-        return true;
     }
 
     public String getImagePng(int position) {
@@ -213,6 +211,11 @@ public class GameManager {
                 if (programmer.podeMover()) {
                     programmer.getOldPos().add(programmer.getPos());
                     programmer.move(nrPositions, size);
+                    if (positions.containsKey(programmer.getPos())) {
+                        positions.replace(programmer.getPos(), positions.get(programmer.getPos()) + 1);
+                    } else {
+                        positions.put(programmer.getPos(), 1);
+                    }
                     return true;
                 }
             }
@@ -312,5 +315,33 @@ public class GameManager {
         panel.add(jLabel1, BorderLayout.CENTER);
         panel.setVisible(true);
         return panel;
+    }
+
+    public boolean saveGame(File file) {
+        return true;
+    }
+
+    public boolean loadGame(File file) {
+        return true;
+    }
+
+    public HashMap<Integer, Integer> getPositions() {
+        return positions;
+    }
+
+    public ArrayList<Integer> getPositionsOrganized() {
+        ArrayList<Integer> positionsOrganized = new ArrayList<>(positions.values());
+        Collections.sort(positionsOrganized);
+        return positionsOrganized;
+    }
+
+    public HashMap<AbyssOrTool, Integer> getAbysses() {
+        return abysses;
+    }
+
+    public ArrayList<Integer> getAbyssesOrganized() {
+        ArrayList<Integer> abyssesOrganized = new ArrayList<>(abysses.values());
+        Collections.sort(abyssesOrganized);
+        return abyssesOrganized;
     }
 }

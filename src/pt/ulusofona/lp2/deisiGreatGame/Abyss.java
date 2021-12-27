@@ -93,6 +93,13 @@ public class Abyss extends AbyssOrTool {
         if (programmer.getOldPos().size() >= 2) {
             antepenultimaPos = programmer.getOldPos().get(programmer.getOldPos().size() - 2);
         }
+
+//        if (GameManager.get) {
+//            abysses.replace(abyssOrTool, abysses.get(abyssOrTool) + 1);
+//        } else {
+//            abysses.put(abyssOrTool, 1);
+//        }
+
         if (title.equals("Erro de sintaxe")) {
             if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("IDE")) {
                 if (!(programmer.getTools().contains("Ajuda Do Professor"))) {

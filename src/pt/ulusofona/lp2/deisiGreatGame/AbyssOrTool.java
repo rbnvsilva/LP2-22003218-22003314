@@ -19,6 +19,10 @@ public abstract class AbyssOrTool {
         return title;
     }
 
+    protected int getType() {
+        return type;
+    }
+
     protected abstract String getImage();
 
     protected abstract String message();

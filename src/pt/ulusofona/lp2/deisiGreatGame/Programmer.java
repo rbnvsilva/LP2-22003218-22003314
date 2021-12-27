@@ -77,6 +77,11 @@ public class Programmer {
         return color;
     }
 
+    public String[] getLanguages() {
+        String[] favLanguagesArray = favLanguages.split(";");
+        return favLanguagesArray;
+    }
+
     @Override
     public String toString() {
         ArrayList<String> listFavLanguages = new ArrayList<>();
