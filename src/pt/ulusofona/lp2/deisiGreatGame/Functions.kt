@@ -35,7 +35,7 @@ fun getPlayer(manager: GameManager, args: List<String>): String {
 
 fun playersByLanguage(manager: GameManager, args: List<String>): String {
     if (manager.getProgrammers(true).none { it.languages.contains(args[1]) }) {
-        return "None"
+        return ""
     }
     return manager.getProgrammers(true).filter { it.languages.contains(args[1]) }
         .joinToString(",") {it.name}
