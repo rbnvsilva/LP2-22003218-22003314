@@ -48,11 +48,11 @@ fun polyglots(manager: GameManager, args: List<String>): String {
 }
 
 fun mostUsedPositions(manager: GameManager, args: List<String>): String {
-    return "ola"
+    return manager.sortPositions(manager.positions).take(args[1].toInt()).joinToString("\n")
 }
 
 fun mostUsedAbysses(manager: GameManager, args: List<String>): String? {
-    return "ola"
+    return manager.sortAbysse(manager.abysses).take(args[1].toInt()).joinToString("\n")
 }
 
 fun move(manager: GameManager, args: List<String>): String? {

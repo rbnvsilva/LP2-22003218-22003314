@@ -329,19 +329,50 @@ public class GameManager {
         return positions;
     }
 
-    public ArrayList<Integer> getPositionsOrganized() {
-        ArrayList<Integer> positionsOrganized = new ArrayList<>(positions.values());
-        Collections.sort(positionsOrganized);
-        return positionsOrganized;
-    }
-
     public HashMap<AbyssOrTool, Integer> getAbysses() {
         return abysses;
     }
 
-    public ArrayList<Integer> getAbyssesOrganized() {
-        ArrayList<Integer> abyssesOrganized = new ArrayList<>(abysses.values());
-        Collections.sort(abyssesOrganized);
-        return abyssesOrganized;
+
+    public ArrayList<String> sortPositions(HashMap<Integer, Integer> passedMap) {
+        List<Integer> mapKeys = new ArrayList<>(passedMap.keySet());
+        List<Integer> mapValues = new ArrayList<>(passedMap.values());
+        mapValues.sort(Comparator.reverseOrder());
+        int i;
+        ArrayList<String> result = new ArrayList<>();
+        for(int value : mapValues){
+            i=0;
+            for(int key: mapKeys){
+                if(passedMap.get(key) == value){
+                    result.add(key+":"+value);
+                    mapKeys.remove(i);
+                    break;
+                }
+                i++;
+            }
+
+        }
+        return result;
+    }
+
+    public ArrayList<String> sortAbysse(HashMap<AbyssOrTool, Integer> passedMap) {
+        List<AbyssOrTool> mapKeys = new ArrayList<>(passedMap.keySet());
+        List<Integer> mapValues = new ArrayList<>(passedMap.values());
+        mapValues.sort(Comparator.reverseOrder());
+        int i;
+        ArrayList<String> result = new ArrayList<>();
+        for(int value : mapValues){
+            i=0;
+            for(AbyssOrTool key: mapKeys){
+                if(passedMap.get(key) == value){
+                    result.add(key+":"+value);
+                    mapKeys.remove(i);
+                    break;
+                }
+                i++;
+            }
+
+        }
+        return result;
     }
 }
