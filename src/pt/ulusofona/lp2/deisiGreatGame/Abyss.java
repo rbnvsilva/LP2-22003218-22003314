@@ -1,6 +1,5 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class Abyss extends AbyssOrTool {

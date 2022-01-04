@@ -174,6 +174,7 @@ public class GameManager {
                 }
                 i++;
             }
+
             if (j == programmers.size() - 1) {
                 if (!programmer.getGameState().equals("Derrotado")) {
                     if (programmer.getTools().size() == 0) {
@@ -182,7 +183,6 @@ public class GameManager {
                         info.append(programmer.getName()).append(" : ").append(tools);
                     }
                 }
-
             } else {
                 if (!programmer.getGameState().equals("Derrotado")) {
                     if (programmer.getTools().size() == 0) {

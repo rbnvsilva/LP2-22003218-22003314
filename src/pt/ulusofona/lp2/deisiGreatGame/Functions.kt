@@ -19,7 +19,7 @@ fun getFunctions(manager: GameManager, args: List<String>): String? {
 fun postFunctions(manager: GameManager, args: List<String>): String? {
     when (args[0]) {
         "MOVE" -> return move(manager, args)
-        "ABYSSE" -> return abyss(manager, args)
+        "ABYSS" -> return abyss(manager, args)
     }
 
     return null
@@ -59,8 +59,8 @@ fun move(manager: GameManager, args: List<String>): String? {
     manager.getProgrammers(false)
         .filter {it.id == manager.currentPlayerID}[0].move(args[1].toInt(), manager.size)
 
-    return if (manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(false)
-            .filter {it.id == manager.currentPlayerID}[0].pos}.isEmpty()) {
+    return if (manager.abyssesOrTools.none { it.getPos() == manager.getProgrammers(false)
+                .filter { it.id == manager.currentPlayerID }[0].pos }) {
         "OK"
     } else {
         manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(false)
@@ -69,7 +69,12 @@ fun move(manager: GameManager, args: List<String>): String? {
 }
 
 fun abyss(manager: GameManager, args: List<String>): String? {
-    return "ola"
+    return if (manager.abyssesOrTools.none { it.getPos() == args[2].toInt() }) {
+        manager.abyssesOrTools.add(Abyss(args[1].toInt(), args[2].toInt()))
+        "OK"
+    } else {
+        "Position is occupied"
+    }
 }
 
 fun escolheFuncao(commandType: CommandType) : ((GameManager, List<String>) -> String?) {
