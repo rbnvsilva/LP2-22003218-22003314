@@ -26,25 +26,37 @@ fun postFunctions(manager: GameManager, args: List<String>): String? {
 }
 
 fun getPlayer(manager: GameManager, args: List<String>): String {
-    if (manager.getProgrammers(true).none { it.name.split(" ")[0] == args[1] }) {
-        return "Inexistent player"
+    if (manager.getProgrammers(true) != null) {
+        if (manager.getProgrammers(true).none { it.name.split(" ")[0] == args[1] }) {
+            return "Inexistent player"
+        }
+        return manager.getProgrammers(true).filter { it.name.split(" ")[0] == args[1] }
+            .toString().replace("[", "").replace("]", "")
     }
-    return manager.getProgrammers(true).filter { it.name.split(" ")[0] == args[1] }
-        .toString().replace("[", "").replace("]", "")
+
+    return ""
 }
 
 fun playersByLanguage(manager: GameManager, args: List<String>): String {
-    if (manager.getProgrammers(true).none { it.languages.contains(args[1]) }) {
-        return ""
+    if (manager.getProgrammers(true) != null) {
+        if (manager.getProgrammers(true).none { it.languages.contains(args[1]) }) {
+            return ""
+        }
+        return manager.getProgrammers(true).filter { it.languages.contains(args[1]) }
+            .joinToString(",") {it.name}
     }
-    return manager.getProgrammers(true).filter { it.languages.contains(args[1]) }
-        .joinToString(",") {it.name}
+
+    return ""
 }
 
 fun polyglots(manager: GameManager, args: List<String>): String {
-    return manager.getProgrammers(true).filter { it.languages.size > 1 }
-        .sortedWith { p1, p2 -> p1.languages.size - p2.languages.size }
-        .joinToString("\n") { "${it.name}:${it.languages.size}" }
+    if (manager.getProgrammers(true) != null) {
+        return manager.getProgrammers(true).filter { it.languages.size > 1 }
+            .sortedWith { p1, p2 -> p1.languages.size - p2.languages.size }
+            .joinToString("\n") { "${it.name}:${it.languages.size}" }
+    }
+
+    return ""
 }
 
 fun mostUsedPositions(manager: GameManager, args: List<String>): String {
@@ -56,25 +68,30 @@ fun mostUsedAbysses(manager: GameManager, args: List<String>): String? {
 }
 
 fun move(manager: GameManager, args: List<String>): String? {
-    manager.getProgrammers(false)
-        .filter {it.id == manager.currentPlayerID}[0].move(args[1].toInt(), manager.size)
-
-    return if (manager.abyssesOrTools.none { it.getPos() == manager.getProgrammers(false)
+    if (manager.getProgrammers(false) != null) {
+        manager.getProgrammers(false)
+            .filter {it.id == manager.currentPlayerID}[0].move(args[1].toInt(), manager.size)
+        return if (manager.abyssesOrTools.none { it.getPos() == manager.getProgrammers(false)
                 .filter { it.id == manager.currentPlayerID }[0].pos }) {
-        "OK"
-    } else {
-        manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(false)
-            .filter {it.id == manager.currentPlayerID}[0].pos}[0].message()
+            "OK"
+        } else {
+            manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(false)
+                .filter {it.id == manager.currentPlayerID}[0].pos}[0].message()
+        }
     }
+    return ""
 }
 
 fun abyss(manager: GameManager, args: List<String>): String? {
-    return if (manager.abyssesOrTools.none { it.getPos() == args[2].toInt() }) {
-        manager.abyssesOrTools.add(Abyss(args[1].toInt(), args[2].toInt()))
-        "OK"
-    } else {
-        "Position is occupied"
+    if (manager.abyssesOrTools != null) {
+        return if (manager.abyssesOrTools.none { it.getPos() == args[2].toInt() }) {
+            manager.abyssesOrTools.add(Abyss(args[1].toInt(), args[2].toInt()))
+            "OK"
+        } else {
+            "Position is occupied"
+        }
     }
+    return ""
 }
 
 fun escolheFuncao(commandType: CommandType) : ((GameManager, List<String>) -> String?) {

@@ -63,15 +63,15 @@ public class GameManager {
         }
         programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
         idTurn = programmers.get(0).getId();
+        createInitialBoard(playerInfo, worldSize, null);
     }
 
     public void createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) throws InvalidInitialBoardException {
-        createInitialBoard(playerInfo, worldSize);
         abyssesOrTools = new ArrayList<>();
         abysses = new HashMap<>();
         if (abyssesAndTools != null) {
             for (String[] abyssOrToolArray : abyssesAndTools) {
-                if ((Integer.parseInt(abyssOrToolArray[0]) > 1) || (Integer.parseInt(abyssOrToolArray[0]) < 0)) {
+                    if ((Integer.parseInt(abyssOrToolArray[0]) > 1) || (Integer.parseInt(abyssOrToolArray[0]) < 0)) {
                     throw new InvalidInitialBoardException("Id invalido");
                 } else {
                     if (abyssOrToolArray[0].equals("0")) {
