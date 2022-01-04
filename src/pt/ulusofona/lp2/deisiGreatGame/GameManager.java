@@ -333,7 +333,6 @@ public class GameManager {
         return abysses;
     }
 
-
     public ArrayList<String> sortPositions(HashMap<Integer, Integer> passedMap) {
         List<Integer> mapKeys = new ArrayList<>(passedMap.keySet());
         List<Integer> mapValues = new ArrayList<>(passedMap.values());
@@ -374,5 +373,9 @@ public class GameManager {
 
         }
         return result;
+    }
+
+    public int getSize() {
+        return size;
     }
 }

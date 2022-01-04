@@ -56,7 +56,16 @@ fun mostUsedAbysses(manager: GameManager, args: List<String>): String? {
 }
 
 fun move(manager: GameManager, args: List<String>): String? {
-    return "ola"
+    manager.getProgrammers(false)
+        .filter {it.id == manager.currentPlayerID}[0].move(args[1].toInt(), manager.size)
+
+    return if (manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(false)
+            .filter {it.id == manager.currentPlayerID}[0].pos}.isEmpty()) {
+        "OK"
+    } else {
+        manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(false)
+            .filter {it.id == manager.currentPlayerID}[0].pos}[0].message()
+    }
 }
 
 fun abyss(manager: GameManager, args: List<String>): String? {
