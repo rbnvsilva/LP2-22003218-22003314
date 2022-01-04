@@ -34,7 +34,7 @@ fun getPlayer(manager: GameManager, args: List<String>): String? {
             .toString().replace("[", "").replace("]", "")
     }
 
-    return null
+    return "Inexistent player"
 }
 
 fun playersByLanguage(manager: GameManager, args: List<String>): String? {
@@ -46,7 +46,7 @@ fun playersByLanguage(manager: GameManager, args: List<String>): String? {
             .joinToString(",") { it.name }
     }
 
-    return null
+    return ""
 }
 
 fun polyglots(manager: GameManager, args: List<String>): String? {
@@ -56,7 +56,7 @@ fun polyglots(manager: GameManager, args: List<String>): String? {
             .joinToString("\n") { "${it.name}:${it.languages.size}" }
     }
 
-    return null
+    return ""
 }
 
 fun mostUsedPositions(manager: GameManager, args: List<String>): String? {
@@ -79,7 +79,7 @@ fun move(manager: GameManager, args: List<String>): String? {
                 .filter {it.id == manager.currentPlayerID}[0].pos}[0].message()
         }
     }
-    return null
+    return ""
 }
 
 fun abyss(manager: GameManager, args: List<String>): String? {
@@ -92,7 +92,7 @@ fun abyss(manager: GameManager, args: List<String>): String? {
         }
     }
 
-    return null
+    return ""
 }
 
 fun escolheFuncao(commandType: CommandType) : ((GameManager, List<String>) -> String?) {

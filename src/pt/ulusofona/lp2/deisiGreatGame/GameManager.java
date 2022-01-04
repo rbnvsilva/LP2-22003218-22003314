@@ -3,8 +3,12 @@ package pt.ulusofona.lp2.deisiGreatGame;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.*;
 import java.util.List;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class GameManager {
     private int size, idTurn, nTurns;
@@ -12,6 +16,9 @@ public class GameManager {
     private ArrayList<AbyssOrTool> abyssesOrTools;
     private HashMap<Integer, Integer> positions;
     private HashMap<AbyssOrTool, Integer> abysses;
+    private String[][] playerInfoSave;
+    private String[][] abyssesAndToolsSave;
+
 
     public GameManager() {
     }
@@ -24,6 +31,8 @@ public class GameManager {
         HashSet<ProgrammerColor> colors = new HashSet<>();
         ProgrammerColor color = null;
         size = worldSize;
+        playerInfoSave = new String[0][];
+        abyssesAndToolsSave = new String[0][];
 
         if (playerInfo.length > 4 || playerInfo.length < 2 || worldSize < playerInfo.length * 2) {
             throw new InvalidInitialBoardException("Dimensoes incorretas");
@@ -61,6 +70,7 @@ public class GameManager {
                 color = null;
             }
         }
+        playerInfoSave = playerInfo;
         programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
         idTurn = programmers.get(0).getId();
     }
@@ -98,6 +108,8 @@ public class GameManager {
                 }
             }
         }
+        abyssesAndToolsSave = abyssesAndTools;
+
     }
 
     public String getImagePng(int position) {
@@ -321,10 +333,78 @@ public class GameManager {
     }
 
     public boolean saveGame(File file) {
-        return true;
+        try {
+            FileWriter myWriter = new FileWriter(file.getName());
+            myWriter.write(Arrays.deepToString(playerInfoSave).replace("], [", ",,")
+                    .replace("[","").replace("]","")+"\n");
+            for(Programmer programmer : programmers){
+                myWriter.write(programmer.getPos() +" ");
+            }
+            myWriter.write("\n"+Arrays.deepToString(abyssesAndToolsSave).replace("], [", ",,")
+                    .replace("[","").replace("]",""));
+            myWriter.write("\n"+size);
+            myWriter.write("\n"+getCurrentPlayerID());
+            myWriter.write("\n"+nTurns);
+            myWriter.close();
+           return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public boolean loadGame(File file) {
+
+
+    public boolean loadGame(File file) throws InvalidInitialBoardException {
+        String [][] playerInfoLoad = new String[0][];
+        String [][] abyssesAndToolsLoad = new String[0][];
+        String[] positions = new String[0];
+        int newId = 0;
+        try {
+            Scanner reader = new Scanner(file);
+            int i = 0;
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine();
+                if(i == 0){
+                    playerInfoLoad = new String[data.split(",,").length][4];
+                    for(int j = 0; j< data.split(",,").length;j++){
+                        for(int k = 0; k<4;k++){
+                            playerInfoLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
+                        }
+                    }
+                }else if(i == 1){
+                    positions = data.split(" ");
+                }else if(i == 2) {
+                    abyssesAndToolsLoad = new String[data.split(",,").length][3];
+                    for(int j = 0; j< data.split(",,").length;j++){
+                        for(int k = 0; k<3;k++){
+                            abyssesAndToolsLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
+                        }
+                    }
+                }else if(i == 3){
+                    size = Integer.parseInt(data.trim());
+                }else if(i == 4){
+                    newId = Integer.parseInt(data.trim());
+                }else if(i == 5){
+                    nTurns = Integer.parseInt(data.trim());
+                }
+                i++;
+            }
+            if(i<5){
+                return false;
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+        createInitialBoard(playerInfoLoad,size,abyssesAndToolsLoad);
+        idTurn = newId;
+        int i = 0;
+        for(Programmer programmer : programmers){
+            programmer.setPos(Integer.parseInt(positions[i]));
+            i++;
+        }
         return true;
     }
 
@@ -381,4 +461,6 @@ public class GameManager {
     public int getSize() {
         return size;
     }
+
+
 }
