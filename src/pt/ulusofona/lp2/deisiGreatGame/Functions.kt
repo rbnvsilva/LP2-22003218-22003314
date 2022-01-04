@@ -25,7 +25,7 @@ fun postFunctions(manager: GameManager, args: List<String>): String? {
     return null
 }
 
-fun getPlayer(manager: GameManager, args: List<String>): String {
+fun getPlayer(manager: GameManager, args: List<String>): String? {
     if (manager.getProgrammers(true) != null) {
         if (manager.getProgrammers(true).none { it.name.split(" ")[0] == args[1] }) {
             return "Inexistent player"
@@ -34,32 +34,32 @@ fun getPlayer(manager: GameManager, args: List<String>): String {
             .toString().replace("[", "").replace("]", "")
     }
 
-    return ""
+    return null
 }
 
-fun playersByLanguage(manager: GameManager, args: List<String>): String {
+fun playersByLanguage(manager: GameManager, args: List<String>): String? {
     if (manager.getProgrammers(true) != null) {
         if (manager.getProgrammers(true).none { it.languages.contains(args[1]) }) {
             return ""
         }
         return manager.getProgrammers(true).filter { it.languages.contains(args[1]) }
-            .joinToString(",") {it.name}
+            .joinToString(",") { it.name }
     }
 
-    return ""
+    return null
 }
 
-fun polyglots(manager: GameManager, args: List<String>): String {
+fun polyglots(manager: GameManager, args: List<String>): String? {
     if (manager.getProgrammers(true) != null) {
         return manager.getProgrammers(true).filter { it.languages.size > 1 }
             .sortedWith { p1, p2 -> p1.languages.size - p2.languages.size }
             .joinToString("\n") { "${it.name}:${it.languages.size}" }
     }
 
-    return ""
+    return null
 }
 
-fun mostUsedPositions(manager: GameManager, args: List<String>): String {
+fun mostUsedPositions(manager: GameManager, args: List<String>): String? {
     return manager.sortPositions(manager.positions).take(args[1].toInt()).joinToString("\n")
 }
 
@@ -72,14 +72,14 @@ fun move(manager: GameManager, args: List<String>): String? {
         manager.getProgrammers(false)
             .filter {it.id == manager.currentPlayerID}[0].move(args[1].toInt(), manager.size)
         return if (manager.abyssesOrTools.none { it.getPos() == manager.getProgrammers(false)
-                .filter { it.id == manager.currentPlayerID }[0].pos }) {
+                .filter { it.id == manager.currentPlayerID }[0].pos}) {
             "OK"
         } else {
             manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(false)
                 .filter {it.id == manager.currentPlayerID}[0].pos}[0].message()
         }
     }
-    return ""
+    return null
 }
 
 fun abyss(manager: GameManager, args: List<String>): String? {
@@ -91,7 +91,8 @@ fun abyss(manager: GameManager, args: List<String>): String? {
             "Position is occupied"
         }
     }
-    return ""
+
+    return null
 }
 
 fun escolheFuncao(commandType: CommandType) : ((GameManager, List<String>) -> String?) {

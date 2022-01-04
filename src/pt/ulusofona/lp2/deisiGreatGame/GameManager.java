@@ -63,10 +63,10 @@ public class GameManager {
         }
         programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
         idTurn = programmers.get(0).getId();
-        createInitialBoard(playerInfo, worldSize, null);
     }
 
     public void createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) throws InvalidInitialBoardException {
+        createInitialBoard(playerInfo, worldSize);
         abyssesOrTools = new ArrayList<>();
         abysses = new HashMap<>();
         if (abyssesAndTools != null) {
@@ -147,6 +147,7 @@ public class GameManager {
 
     public List<Programmer> getProgrammers(int position) {
         ArrayList<Programmer> valid = new ArrayList<>();
+
         for (Programmer programmer : programmers) {
             if (programmer.getPos() == position) {
                 valid.add(programmer);
@@ -163,6 +164,7 @@ public class GameManager {
     public String getProgrammersInfo() {
         StringBuilder info = new StringBuilder();
         int j = 0;
+
         for (Programmer programmer : programmers) {
             StringBuilder tools = new StringBuilder();
             int i = 0;
@@ -194,6 +196,7 @@ public class GameManager {
             }
             j++;
         }
+
         return info.toString();
     }
 
