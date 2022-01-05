@@ -60,11 +60,19 @@ fun polyglots(manager: GameManager, args: List<String>): String? {
 }
 
 fun mostUsedPositions(manager: GameManager, args: List<String>): String? {
-    return manager.sortPositions(manager.positions).take(args[1].toInt()).joinToString("\n")
+    if (manager.positions != null) {
+        return manager.positions.sortedWith {p1, p2 -> p2.getNumeroPisadelas() - p1.getNumeroPisadelas()}
+            .map { "${it.getCasa()}:${it.getNumeroPisadelas()}" }.take(args[1].toInt()).joinToString("\n")
+    }
+    return ""
 }
 
 fun mostUsedAbysses(manager: GameManager, args: List<String>): String? {
-    return manager.sortAbysse(manager.abysses).take(args[1].toInt()).joinToString("\n")
+    if (manager.abyssesOrTools != null) {
+        return manager.abyssesOrTools.filter {it.numeroPisadelas >= 0}.sortedWith {a1, a2 -> a2.numeroPisadelas - a1.numeroPisadelas}
+            .map { "${it.getTitle()}:${it.numeroPisadelas}" }.take(args[1].toInt()).joinToString("\n")
+    }
+    return ""
 }
 
 fun move(manager: GameManager, args: List<String>): String? {

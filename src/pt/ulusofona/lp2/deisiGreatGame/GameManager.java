@@ -13,8 +13,7 @@ public class GameManager {
     private int size, idTurn, nTurns;
     private ArrayList<Programmer> programmers;
     private ArrayList<AbyssOrTool> abyssesOrTools;
-    private HashMap<Integer, Integer> positions;
-    private HashMap<AbyssOrTool, Integer> abysses;
+    private ArrayList<Position> positions;
     private String[][] playerInfoSave;
     private String[][] abyssesAndToolsSave;
 
@@ -23,14 +22,17 @@ public class GameManager {
 
     public void createInitialBoard(String[][] playerInfo, int worldSize) throws InvalidInitialBoardException {
         nTurns = 1;
-        positions = new HashMap<>();
         programmers = new ArrayList<>();
         HashSet<Integer> ids = new HashSet<>();
         HashSet<ProgrammerColor> colors = new HashSet<>();
-        ProgrammerColor color;
+        ProgrammerColor color = null;
         size = worldSize;
         playerInfoSave = new String[0][];
         abyssesAndToolsSave = new String[0][];
+        positions = new ArrayList<>();
+        for (int i = 2; i <= size; i++) {
+            positions.add(new Position(i, 0));
+        }
 
         if (playerInfo.length > 4 || playerInfo.length < 2 || worldSize < playerInfo.length * 2) {
             throw new InvalidInitialBoardException("Dimensoes incorretas");
@@ -62,13 +64,10 @@ public class GameManager {
                         } else {
                             colors.add(color);
                         }
-                    } else {
-                        throw new InvalidInitialBoardException("Cores incorretas");
                     }
-                } else {
-                    throw new InvalidInitialBoardException("Informacao incorreta");
                 }
                 programmers.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], color));
+                color = null;
             }
         }
         playerInfoSave = playerInfo;
@@ -79,7 +78,6 @@ public class GameManager {
     public void createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) throws InvalidInitialBoardException {
         createInitialBoard(playerInfo, worldSize);
         abyssesOrTools = new ArrayList<>();
-        abysses = new HashMap<>();
         if (abyssesAndTools != null) {
             for (String[] abyssOrToolArray : abyssesAndTools) {
                 if ((Integer.parseInt(abyssOrToolArray[0]) > 1) || (Integer.parseInt(abyssOrToolArray[0]) < 0)) {
@@ -105,13 +103,9 @@ public class GameManager {
                                 abyssesOrTools.add(new Tool(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
                             }
                         }
-                    } else {
-                        throw new InvalidInitialBoardException("Tipo incorreto");
                     }
                 }
             }
-        } else {
-            throw new InvalidInitialBoardException("Array null");
         }
         abyssesAndToolsSave = abyssesAndTools;
     }
@@ -230,11 +224,14 @@ public class GameManager {
                 if (programmer.podeMover()) {
                     programmer.getOldPos().add(programmer.getPos());
                     programmer.move(nrPositions, size);
-                    if (positions.containsKey(programmer.getPos())) {
-                        positions.replace(programmer.getPos(), positions.get(programmer.getPos()) + 1);
-                    } else {
-                        positions.put(programmer.getPos(), 1);
+
+                    for (Position position : positions) {
+                        if (programmer.getPos() == position.getCasa()) {
+                            position.incrementaPisadelas();
+                            break;
+                        }
                     }
+
                     return true;
                 }
             }
@@ -401,11 +398,13 @@ public class GameManager {
             e.printStackTrace();
             return false;
         }
+
         try {
             createInitialBoard(playerInfoLoad, size, abyssesAndToolsLoad);
         } catch (InvalidInitialBoardException i) {
             System.out.println(i.getMessage());
         }
+
         idTurn = newId;
         nTurns = newNturns;
         int i = 0;
@@ -416,57 +415,11 @@ public class GameManager {
         return true;
     }
 
-    public HashMap<Integer, Integer> getPositions() {
-        return positions;
-    }
-
-    public HashMap<AbyssOrTool, Integer> getAbysses() {
-        return abysses;
-    }
-
-    public ArrayList<String> sortPositions(HashMap<Integer, Integer> passedMap) {
-        List<Integer> mapKeys = new ArrayList<>(passedMap.keySet());
-        List<Integer> mapValues = new ArrayList<>(passedMap.values());
-        mapValues.sort(Comparator.reverseOrder());
-        int i;
-        ArrayList<String> result = new ArrayList<>();
-        for (int value : mapValues) {
-            i = 0;
-            for (int key : mapKeys) {
-                if (passedMap.get(key) == value) {
-                    result.add(key + ":" + value);
-                    mapKeys.remove(i);
-                    break;
-                }
-                i++;
-            }
-
-        }
-        return result;
-    }
-
-    public ArrayList<String> sortAbysse(HashMap<AbyssOrTool, Integer> passedMap) {
-        List<AbyssOrTool> mapKeys = new ArrayList<>(passedMap.keySet());
-        List<Integer> mapValues = new ArrayList<>(passedMap.values());
-        mapValues.sort(Comparator.reverseOrder());
-        int i;
-        ArrayList<String> result = new ArrayList<>();
-        for (int value : mapValues) {
-            i = 0;
-            for (AbyssOrTool key : mapKeys) {
-                if (passedMap.get(key) == value) {
-                    result.add(key + ":" + value);
-                    mapKeys.remove(i);
-                    break;
-                }
-                i++;
-            }
-
-        }
-        return result;
-    }
-
     public int getSize() {
         return size;
+    }
+
+    public ArrayList<Position> getPositions() {
+        return positions;
     }
 }

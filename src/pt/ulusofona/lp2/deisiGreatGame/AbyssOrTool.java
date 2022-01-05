@@ -11,6 +11,10 @@ public abstract class AbyssOrTool {
         this.pos = pos;
     }
 
+    protected int getNumeroPisadelas() {
+        return -1;
+    }
+
     protected int getPos() {
         return pos;
     }
