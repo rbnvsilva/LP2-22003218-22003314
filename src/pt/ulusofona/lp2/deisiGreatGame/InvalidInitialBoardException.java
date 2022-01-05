@@ -15,8 +15,8 @@ public class InvalidInitialBoardException extends Exception {
         return message.equals("Erro de tool");
     }
 
-    public int getTypeId() {
-        return 0;
+    public String getTypeId() {
+        return "";
     }
 
     public String getMessage() {
