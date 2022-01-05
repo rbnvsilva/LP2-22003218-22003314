@@ -362,6 +362,7 @@ public class GameManager {
         String[][] abyssesAndToolsLoad = new String[0][];
         String[] positions = new String[0];
         int newId = 0;
+        int newNturns = 0;
         try {
             Scanner reader = new Scanner(file);
             int i = 0;
@@ -388,7 +389,7 @@ public class GameManager {
                 } else if (i == 4) {
                     newId = Integer.parseInt(data.trim());
                 } else if (i == 5) {
-                    nTurns = Integer.parseInt(data.trim());
+                    newNturns = Integer.parseInt(data.trim());
                 }
                 i++;
             }
@@ -405,8 +406,8 @@ public class GameManager {
         } catch (InvalidInitialBoardException i) {
             System.out.println(i.getMessage());
         }
-
         idTurn = newId;
+        nTurns = newNturns;
         int i = 0;
         for (Programmer programmer : programmers) {
             programmer.setPos(Integer.parseInt(positions[i]));
