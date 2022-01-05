@@ -349,7 +349,6 @@ public class GameManager {
             myWriter.close();
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -387,7 +386,6 @@ public class GameManager {
             }
             reader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             return false;
         }
 

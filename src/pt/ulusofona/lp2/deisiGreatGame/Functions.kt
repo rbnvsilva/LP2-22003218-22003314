@@ -84,8 +84,10 @@ fun move(manager: GameManager, args: List<String>): String? {
                 .filter { it.id == manager.currentPlayerID }[0].pos}) {
             "OK"
         } else {
-            manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(false)
+            val message = manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(true)
                 .filter {it.id == manager.currentPlayerID}[0].pos}[0].message()
+            manager.reactToAbyssOrTool()
+            message
         }
     }
     return ""
