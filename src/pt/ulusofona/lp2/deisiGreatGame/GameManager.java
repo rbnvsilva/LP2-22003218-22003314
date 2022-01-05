@@ -27,7 +27,7 @@ public class GameManager {
         programmers = new ArrayList<>();
         HashSet<Integer> ids = new HashSet<>();
         HashSet<ProgrammerColor> colors = new HashSet<>();
-        ProgrammerColor color = null;
+        ProgrammerColor color;
         size = worldSize;
         playerInfoSave = new String[0][];
         abyssesAndToolsSave = new String[0][];
@@ -62,12 +62,13 @@ public class GameManager {
                         } else {
                             colors.add(color);
                         }
+                    } else {
+                        throw new InvalidInitialBoardException("Cores incorretas");
                     }
                 } else {
-                    throw new InvalidInitialBoardException("Informacao incorretas");
+                    throw new InvalidInitialBoardException("Informacao incorreta");
                 }
                 programmers.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], color));
-                color = null;
             }
         }
         playerInfoSave = playerInfo;
