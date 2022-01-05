@@ -19,7 +19,6 @@ public class GameManager {
     private String[][] playerInfoSave;
     private String[][] abyssesAndToolsSave;
 
-
     public GameManager() {
     }
 
@@ -34,82 +33,89 @@ public class GameManager {
         playerInfoSave = new String[0][];
         abyssesAndToolsSave = new String[0][];
 
-        if (playerInfo.length > 4 || playerInfo.length < 2 || worldSize < playerInfo.length * 2) {
-            throw new InvalidInitialBoardException("Dimensoes incorretas");
-        } else {
-            for (String[] info : playerInfo) {
-                if (info[0] != null && (info[1] != null && !info[1].equals(""))
-                        && info[2] != null && info[3] != null) {
-                    if (Integer.parseInt(info[0]) <= 0) {
-                        throw new InvalidInitialBoardException("Id invalido");
-                    }
-                    if (ids.contains(Integer.parseInt(info[0]))) {
-                        throw new InvalidInitialBoardException("Id repetido");
-                    } else {
-                        ids.add(Integer.parseInt(info[0]));
-                    }
-                    if (info[3].equals("Purple") || info[3].equals("Blue")
-                            || info[3].equals("Green") || info[3].equals("Brown")) {
-                        if (info[3].equals("Purple")) {
-                            color = ProgrammerColor.PURPLE;
-                        } else if (info[3].equals("Blue")) {
-                            color = ProgrammerColor.BLUE;
-                        } else if (info[3].equals("Green")) {
-                            color = ProgrammerColor.GREEN;
-                        } else {
-                            color = ProgrammerColor.BROWN;
+        try {
+            if (playerInfo.length > 4 || playerInfo.length < 2 || worldSize < playerInfo.length * 2) {
+                throw new InvalidInitialBoardException("Dimensoes incorretas");
+            } else {
+                for (String[] info : playerInfo) {
+                    if (info[0] != null && (info[1] != null && !info[1].equals(""))
+                            && info[2] != null && info[3] != null) {
+                        if (Integer.parseInt(info[0]) <= 0) {
+                            throw new InvalidInitialBoardException("Id invalido");
                         }
-                        if (colors.contains(color)) {
-                            throw new InvalidInitialBoardException("Cor repetida");
+                        if (ids.contains(Integer.parseInt(info[0]))) {
+                            throw new InvalidInitialBoardException("Id repetido");
                         } else {
-                            colors.add(color);
+                            ids.add(Integer.parseInt(info[0]));
+                        }
+                        if (info[3].equals("Purple") || info[3].equals("Blue")
+                                || info[3].equals("Green") || info[3].equals("Brown")) {
+                            if (info[3].equals("Purple")) {
+                                color = ProgrammerColor.PURPLE;
+                            } else if (info[3].equals("Blue")) {
+                                color = ProgrammerColor.BLUE;
+                            } else if (info[3].equals("Green")) {
+                                color = ProgrammerColor.GREEN;
+                            } else {
+                                color = ProgrammerColor.BROWN;
+                            }
+                            if (colors.contains(color)) {
+                                throw new InvalidInitialBoardException("Cor repetida");
+                            } else {
+                                colors.add(color);
+                            }
                         }
                     }
+                    programmers.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], color));
+                    color = null;
                 }
-                programmers.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], color));
-                color = null;
             }
+            playerInfoSave = playerInfo;
+            programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
+            idTurn = programmers.get(0).getId();
+        } catch (InvalidInitialBoardException i) {
+            System.out.println("Excecao" + i);
         }
-        playerInfoSave = playerInfo;
-        programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
-        idTurn = programmers.get(0).getId();
     }
 
     public void createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) throws InvalidInitialBoardException {
-        createInitialBoard(playerInfo, worldSize);
-        abyssesOrTools = new ArrayList<>();
-        abysses = new HashMap<>();
-        if (abyssesAndTools != null) {
-            for (String[] abyssOrToolArray : abyssesAndTools) {
+        try {
+            createInitialBoard(playerInfo, worldSize);
+            abyssesOrTools = new ArrayList<>();
+            abysses = new HashMap<>();
+            if (abyssesAndTools != null) {
+                for (String[] abyssOrToolArray : abyssesAndTools) {
                     if ((Integer.parseInt(abyssOrToolArray[0]) > 1) || (Integer.parseInt(abyssOrToolArray[0]) < 0)) {
-                    throw new InvalidInitialBoardException("Id invalido");
-                } else {
-                    if (abyssOrToolArray[0].equals("0")) {
-                        if ((Integer.parseInt(abyssOrToolArray[1]) > 9) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
-                            throw new InvalidInitialBoardException("Erro de abismo");
-                        } else {
-                            if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
+                        throw new InvalidInitialBoardException("Id invalido");
+                    } else {
+                        if (abyssOrToolArray[0].equals("0")) {
+                            if ((Integer.parseInt(abyssOrToolArray[1]) > 9) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
                                 throw new InvalidInitialBoardException("Erro de abismo");
                             } else {
-                                abyssesOrTools.add(new Abyss(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
+                                if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
+                                    throw new InvalidInitialBoardException("Erro de abismo");
+                                } else {
+                                    abyssesOrTools.add(new Abyss(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
+                                }
                             }
-                        }
-                    } else if (abyssOrToolArray[0].equals("1")) {
-                        if ((Integer.parseInt(abyssOrToolArray[1]) > 5) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
-                            throw new InvalidInitialBoardException("Erro de tool");
-                        } else {
-                            if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
+                        } else if (abyssOrToolArray[0].equals("1")) {
+                            if ((Integer.parseInt(abyssOrToolArray[1]) > 5) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
                                 throw new InvalidInitialBoardException("Erro de tool");
                             } else {
-                                abyssesOrTools.add(new Tool(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
+                                if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
+                                    throw new InvalidInitialBoardException("Erro de tool");
+                                } else {
+                                    abyssesOrTools.add(new Tool(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
+                                }
                             }
                         }
                     }
                 }
             }
+            abyssesAndToolsSave = abyssesAndTools;
+        } catch (InvalidInitialBoardException i) {
+            System.out.println("Excecao" + i);
         }
-        abyssesAndToolsSave = abyssesAndTools;
-
     }
 
     public String getImagePng(int position) {
