@@ -367,20 +367,12 @@ public class GameManager {
                 String data = reader.nextLine();
                 if (i == 0) {
                     playerInfoLoad = new String[data.split(",,").length][4];
-                    for (int j = 0; j < data.split(",,").length; j++) {
-                        for (int k = 0; k < 4; k++) {
-                            playerInfoLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
-                        }
-                    }
+                    preencheArray(playerInfoLoad, data);
                 } else if (i == 1) {
                     positions = data.split(" ");
                 } else if (i == 2) {
                     abyssesAndToolsLoad = new String[data.split(",,").length][3];
-                    for (int j = 0; j < data.split(",,").length; j++) {
-                        for (int k = 0; k < abyssesAndToolsLoad[j].length; k++) {
-                            abyssesAndToolsLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
-                        }
-                    }
+                    preencheArray(abyssesAndToolsLoad, data);
                 } else if (i == 3) {
                     size = Integer.parseInt(data.trim());
                 } else if (i == 4) {
@@ -413,6 +405,14 @@ public class GameManager {
             i++;
         }
         return true;
+    }
+
+    private void preencheArray(String[][] playerInfoLoad, String data) {
+        for (int j = 0; j < data.split(",,").length; j++) {
+            for (int k = 0; k < data.split(",,")[j].trim().split(", ").length; k++) {
+                playerInfoLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
+            }
+        }
     }
 
     public int getSize() {

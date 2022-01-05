@@ -79,7 +79,8 @@ fun move(manager: GameManager, args: List<String>): String? {
     if (manager.getProgrammers(false) != null) {
         manager.getProgrammers(false)
             .filter {it.id == manager.currentPlayerID}[0].move(args[1].toInt(), manager.size)
-        return if (manager.abyssesOrTools.none { it.getPos() == manager.getProgrammers(false)
+
+        return if (manager.abyssesOrTools == null || manager.abyssesOrTools.none { it.getPos() == manager.getProgrammers(false)
                 .filter { it.id == manager.currentPlayerID }[0].pos}) {
             "OK"
         } else {
