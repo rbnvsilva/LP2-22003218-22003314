@@ -32,7 +32,6 @@ public class GameManager {
         playerInfoSave = new String[0][];
         abyssesAndToolsSave = new String[0][];
 
-
         if (playerInfo.length > 4 || playerInfo.length < 2 || worldSize < playerInfo.length * 2) {
             throw new InvalidInitialBoardException("Dimensoes incorretas");
         } else {
@@ -64,6 +63,8 @@ public class GameManager {
                             colors.add(color);
                         }
                     }
+                } else {
+                    throw new InvalidInitialBoardException("Informacao incorretas");
                 }
                 programmers.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], color));
                 color = null;
@@ -103,9 +104,13 @@ public class GameManager {
                                 abyssesOrTools.add(new Tool(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
                             }
                         }
+                    } else {
+                        throw new InvalidInitialBoardException("Tipo incorreto");
                     }
                 }
             }
+        } else {
+            throw new InvalidInitialBoardException("Array null");
         }
         abyssesAndToolsSave = abyssesAndTools;
     }
