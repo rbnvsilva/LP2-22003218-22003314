@@ -16,7 +16,7 @@ public class InvalidInitialBoardException extends Exception {
     }
 
     public String getTypeId() {
-        return "";
+        return null;
     }
 
     public String getMessage() {

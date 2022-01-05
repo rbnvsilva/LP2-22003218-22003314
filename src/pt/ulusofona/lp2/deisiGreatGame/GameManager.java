@@ -3,12 +3,11 @@ package pt.ulusofona.lp2.deisiGreatGame;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.io.FileWriter;
-import java.util.*;
-import java.util.List;
-import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.*;
 
 public class GameManager {
     private int size, idTurn, nTurns;
@@ -33,89 +32,82 @@ public class GameManager {
         playerInfoSave = new String[0][];
         abyssesAndToolsSave = new String[0][];
 
-        try {
-            if (playerInfo.length > 4 || playerInfo.length < 2 || worldSize < playerInfo.length * 2) {
-                throw new InvalidInitialBoardException("Dimensoes incorretas");
-            } else {
-                for (String[] info : playerInfo) {
-                    if (info[0] != null && (info[1] != null && !info[1].equals(""))
-                            && info[2] != null && info[3] != null) {
-                        if (Integer.parseInt(info[0]) <= 0) {
-                            throw new InvalidInitialBoardException("Id invalido");
-                        }
-                        if (ids.contains(Integer.parseInt(info[0]))) {
-                            throw new InvalidInitialBoardException("Id repetido");
+
+        if (playerInfo.length > 4 || playerInfo.length < 2 || worldSize < playerInfo.length * 2) {
+            throw new InvalidInitialBoardException("Dimensoes incorretas");
+        } else {
+            for (String[] info : playerInfo) {
+                if (info[0] != null && (info[1] != null && !info[1].equals(""))
+                        && info[2] != null && info[3] != null) {
+                    if (Integer.parseInt(info[0]) <= 0) {
+                        throw new InvalidInitialBoardException("Id invalido");
+                    }
+                    if (ids.contains(Integer.parseInt(info[0]))) {
+                        throw new InvalidInitialBoardException("Id repetido");
+                    } else {
+                        ids.add(Integer.parseInt(info[0]));
+                    }
+                    if (info[3].equals("Purple") || info[3].equals("Blue")
+                            || info[3].equals("Green") || info[3].equals("Brown")) {
+                        if (info[3].equals("Purple")) {
+                            color = ProgrammerColor.PURPLE;
+                        } else if (info[3].equals("Blue")) {
+                            color = ProgrammerColor.BLUE;
+                        } else if (info[3].equals("Green")) {
+                            color = ProgrammerColor.GREEN;
                         } else {
-                            ids.add(Integer.parseInt(info[0]));
+                            color = ProgrammerColor.BROWN;
                         }
-                        if (info[3].equals("Purple") || info[3].equals("Blue")
-                                || info[3].equals("Green") || info[3].equals("Brown")) {
-                            if (info[3].equals("Purple")) {
-                                color = ProgrammerColor.PURPLE;
-                            } else if (info[3].equals("Blue")) {
-                                color = ProgrammerColor.BLUE;
-                            } else if (info[3].equals("Green")) {
-                                color = ProgrammerColor.GREEN;
-                            } else {
-                                color = ProgrammerColor.BROWN;
-                            }
-                            if (colors.contains(color)) {
-                                throw new InvalidInitialBoardException("Cor repetida");
-                            } else {
-                                colors.add(color);
-                            }
+                        if (colors.contains(color)) {
+                            throw new InvalidInitialBoardException("Cor repetida");
+                        } else {
+                            colors.add(color);
                         }
                     }
-                    programmers.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], color));
-                    color = null;
                 }
+                programmers.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], color));
+                color = null;
             }
-            playerInfoSave = playerInfo;
-            programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
-            idTurn = programmers.get(0).getId();
-        } catch (InvalidInitialBoardException i) {
-            System.out.println("Excecao" + i);
         }
+        playerInfoSave = playerInfo;
+        programmers.sort(Comparator.comparing(Programmer -> Programmer.getId()));
+        idTurn = programmers.get(0).getId();
     }
 
     public void createInitialBoard(String[][] playerInfo, int worldSize, String[][] abyssesAndTools) throws InvalidInitialBoardException {
-        try {
-            createInitialBoard(playerInfo, worldSize);
-            abyssesOrTools = new ArrayList<>();
-            abysses = new HashMap<>();
-            if (abyssesAndTools != null) {
-                for (String[] abyssOrToolArray : abyssesAndTools) {
-                    if ((Integer.parseInt(abyssOrToolArray[0]) > 1) || (Integer.parseInt(abyssOrToolArray[0]) < 0)) {
-                        throw new InvalidInitialBoardException("Id invalido");
-                    } else {
-                        if (abyssOrToolArray[0].equals("0")) {
-                            if ((Integer.parseInt(abyssOrToolArray[1]) > 9) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
+        createInitialBoard(playerInfo, worldSize);
+        abyssesOrTools = new ArrayList<>();
+        abysses = new HashMap<>();
+        if (abyssesAndTools != null) {
+            for (String[] abyssOrToolArray : abyssesAndTools) {
+                if ((Integer.parseInt(abyssOrToolArray[0]) > 1) || (Integer.parseInt(abyssOrToolArray[0]) < 0)) {
+                    throw new InvalidInitialBoardException("Id invalido");
+                } else {
+                    if (abyssOrToolArray[0].equals("0")) {
+                        if ((Integer.parseInt(abyssOrToolArray[1]) > 9) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
+                            throw new InvalidInitialBoardException("Erro de abismo");
+                        } else {
+                            if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
                                 throw new InvalidInitialBoardException("Erro de abismo");
                             } else {
-                                if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
-                                    throw new InvalidInitialBoardException("Erro de abismo");
-                                } else {
-                                    abyssesOrTools.add(new Abyss(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
-                                }
+                                abyssesOrTools.add(new Abyss(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
                             }
-                        } else if (abyssOrToolArray[0].equals("1")) {
-                            if ((Integer.parseInt(abyssOrToolArray[1]) > 5) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
+                        }
+                    } else if (abyssOrToolArray[0].equals("1")) {
+                        if ((Integer.parseInt(abyssOrToolArray[1]) > 5) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
+                            throw new InvalidInitialBoardException("Erro de tool");
+                        } else {
+                            if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
                                 throw new InvalidInitialBoardException("Erro de tool");
                             } else {
-                                if ((Integer.parseInt(abyssOrToolArray[2]) < 1) || (Integer.parseInt(abyssOrToolArray[2]) > worldSize)) {
-                                    throw new InvalidInitialBoardException("Erro de tool");
-                                } else {
-                                    abyssesOrTools.add(new Tool(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
-                                }
+                                abyssesOrTools.add(new Tool(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
                             }
                         }
                     }
                 }
             }
-            abyssesAndToolsSave = abyssesAndTools;
-        } catch (InvalidInitialBoardException i) {
-            System.out.println("Excecao" + i);
         }
+        abyssesAndToolsSave = abyssesAndTools;
     }
 
     public String getImagePng(int position) {
@@ -342,28 +334,26 @@ public class GameManager {
         try {
             FileWriter myWriter = new FileWriter(file.getName());
             myWriter.write(Arrays.deepToString(playerInfoSave).replace("], [", ",,")
-                    .replace("[","").replace("]","")+"\n");
-            for(Programmer programmer : programmers){
-                myWriter.write(programmer.getPos() +" ");
+                    .replace("[", "").replace("]", "") + "\n");
+            for (Programmer programmer : programmers) {
+                myWriter.write(programmer.getPos() + " ");
             }
-            myWriter.write("\n"+Arrays.deepToString(abyssesAndToolsSave).replace("], [", ",,")
-                    .replace("[","").replace("]",""));
-            myWriter.write("\n"+size);
-            myWriter.write("\n"+getCurrentPlayerID());
-            myWriter.write("\n"+nTurns);
+            myWriter.write("\n" + Arrays.deepToString(abyssesAndToolsSave).replace("], [", ",,")
+                    .replace("[", "").replace("]", ""));
+            myWriter.write("\n" + size);
+            myWriter.write("\n" + getCurrentPlayerID());
+            myWriter.write("\n" + nTurns);
             myWriter.close();
-           return true;
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-
-
     public boolean loadGame(File file) throws InvalidInitialBoardException {
-        String [][] playerInfoLoad = new String[0][];
-        String [][] abyssesAndToolsLoad = new String[0][];
+        String[][] playerInfoLoad = new String[0][];
+        String[][] abyssesAndToolsLoad = new String[0][];
         String[] positions = new String[0];
         int newId = 0;
         try {
@@ -371,32 +361,32 @@ public class GameManager {
             int i = 0;
             while (reader.hasNextLine()) {
                 String data = reader.nextLine();
-                if(i == 0){
+                if (i == 0) {
                     playerInfoLoad = new String[data.split(",,").length][4];
-                    for(int j = 0; j< data.split(",,").length;j++){
-                        for(int k = 0; k<4;k++){
+                    for (int j = 0; j < data.split(",,").length; j++) {
+                        for (int k = 0; k < 4; k++) {
                             playerInfoLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
                         }
                     }
-                }else if(i == 1){
+                } else if (i == 1) {
                     positions = data.split(" ");
-                }else if(i == 2) {
+                } else if (i == 2) {
                     abyssesAndToolsLoad = new String[data.split(",,").length][3];
-                    for(int j = 0; j< data.split(",,").length;j++){
-                        for(int k = 0; k<3;k++){
+                    for (int j = 0; j < data.split(",,").length; j++) {
+                        for (int k = 0; k < 3; k++) {
                             abyssesAndToolsLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
                         }
                     }
-                }else if(i == 3){
+                } else if (i == 3) {
                     size = Integer.parseInt(data.trim());
-                }else if(i == 4){
+                } else if (i == 4) {
                     newId = Integer.parseInt(data.trim());
-                }else if(i == 5){
+                } else if (i == 5) {
                     nTurns = Integer.parseInt(data.trim());
                 }
                 i++;
             }
-            if(i<5){
+            if (i < 5) {
                 return false;
             }
             reader.close();
@@ -404,10 +394,10 @@ public class GameManager {
             e.printStackTrace();
             return false;
         }
-        createInitialBoard(playerInfoLoad,size,abyssesAndToolsLoad);
+        createInitialBoard(playerInfoLoad, size, abyssesAndToolsLoad);
         idTurn = newId;
         int i = 0;
-        for(Programmer programmer : programmers){
+        for (Programmer programmer : programmers) {
             programmer.setPos(Integer.parseInt(positions[i]));
             i++;
         }
@@ -428,11 +418,11 @@ public class GameManager {
         mapValues.sort(Comparator.reverseOrder());
         int i;
         ArrayList<String> result = new ArrayList<>();
-        for(int value : mapValues){
-            i=0;
-            for(int key: mapKeys){
-                if(passedMap.get(key) == value){
-                    result.add(key+":"+value);
+        for (int value : mapValues) {
+            i = 0;
+            for (int key : mapKeys) {
+                if (passedMap.get(key) == value) {
+                    result.add(key + ":" + value);
                     mapKeys.remove(i);
                     break;
                 }
@@ -449,11 +439,11 @@ public class GameManager {
         mapValues.sort(Comparator.reverseOrder());
         int i;
         ArrayList<String> result = new ArrayList<>();
-        for(int value : mapValues){
-            i=0;
-            for(AbyssOrTool key: mapKeys){
-                if(passedMap.get(key) == value){
-                    result.add(key+":"+value);
+        for (int value : mapValues) {
+            i = 0;
+            for (AbyssOrTool key : mapKeys) {
+                if (passedMap.get(key) == value) {
+                    result.add(key + ":" + value);
                     mapKeys.remove(i);
                     break;
                 }
@@ -467,6 +457,4 @@ public class GameManager {
     public int getSize() {
         return size;
     }
-
-
 }
