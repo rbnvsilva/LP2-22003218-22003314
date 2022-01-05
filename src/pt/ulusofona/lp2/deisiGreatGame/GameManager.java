@@ -364,20 +364,22 @@ public class GameManager {
             int i = 0;
             while (reader.hasNextLine()) {
                 String data = reader.nextLine();
-                if (i == 0) {
-                    playerInfoLoad = new String[data.split(",,").length][4];
-                    preencheArray(playerInfoLoad, data);
-                } else if (i == 1) {
-                    positions = data.split(" ");
-                } else if (i == 2) {
-                    abyssesAndToolsLoad = new String[data.split(",,").length][3];
-                    preencheArray(abyssesAndToolsLoad, data);
-                } else if (i == 3) {
-                    size = Integer.parseInt(data.trim());
-                } else if (i == 4) {
-                    newId = Integer.parseInt(data.trim());
-                } else if (i == 5) {
-                    newNturns = Integer.parseInt(data.trim());
+                if(data != null){
+                    if (i == 0) {
+                        playerInfoLoad = new String[data.split(",,").length][4];
+                        preencheArray(playerInfoLoad, data);
+                    } else if (i == 1) {
+                        positions = data.split(" ");
+                    } else if (i == 2) {
+                        abyssesAndToolsLoad = new String[data.split(",,").length][3];
+                        preencheArray(abyssesAndToolsLoad, data);
+                    } else if (i == 3) {
+                        size = Integer.parseInt(data.trim());
+                    } else if (i == 4) {
+                        newId = Integer.parseInt(data.trim());
+                    } else if (i == 5) {
+                        newNturns = Integer.parseInt(data.trim());
+                    }
                 }
                 i++;
             }
