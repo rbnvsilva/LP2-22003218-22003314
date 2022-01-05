@@ -357,7 +357,7 @@ public class GameManager {
         }
     }
 
-    public boolean loadGame(File file) throws InvalidInitialBoardException {
+    public boolean loadGame(File file) {
         String[][] playerInfoLoad = new String[0][];
         String[][] abyssesAndToolsLoad = new String[0][];
         String[] positions = new String[0];
@@ -400,7 +400,12 @@ public class GameManager {
             e.printStackTrace();
             return false;
         }
-        createInitialBoard(playerInfoLoad, size, abyssesAndToolsLoad);
+        try {
+            createInitialBoard(playerInfoLoad, size, abyssesAndToolsLoad);
+        } catch (InvalidInitialBoardException i) {
+            System.out.println(i.getMessage());
+        }
+
         idTurn = newId;
         int i = 0;
         for (Programmer programmer : programmers) {
