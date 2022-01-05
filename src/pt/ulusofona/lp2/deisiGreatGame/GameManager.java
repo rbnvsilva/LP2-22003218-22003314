@@ -377,7 +377,7 @@ public class GameManager {
                 } else if (i == 2) {
                     abyssesAndToolsLoad = new String[data.split(",,").length][3];
                     for (int j = 0; j < data.split(",,").length; j++) {
-                        for (int k = 0; k < 3; k++) {
+                        for (int k = 0; k < abyssesAndToolsLoad[j].length; k++) {
                             abyssesAndToolsLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
                         }
                     }
