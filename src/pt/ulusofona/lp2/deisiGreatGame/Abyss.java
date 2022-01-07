@@ -90,7 +90,6 @@ public class Abyss extends AbyssOrTool {
 
     @Override
     protected void react(Programmer programmer, List<Programmer> programmers, int size) {
-        numeroPisadelas++;
         int posAtual = programmer.getPos();
         int penultimaPos = 0;
         int antepenultimaPos = 0;
@@ -109,6 +108,7 @@ public class Abyss extends AbyssOrTool {
                 }
             } else {
                 programmer.move(-1, size);
+                numeroPisadelas++;
             }
         } else if (title.equals("Erro de lógica")) {
             int posFinal = (int) Math.floor((((double) posAtual - (double) penultimaPos) / 2));
@@ -120,6 +120,7 @@ public class Abyss extends AbyssOrTool {
                 }
             } else {
                 programmer.move(-posFinal, size);
+                numeroPisadelas++;
             }
         } else if (title.equals("Exception")) {
             if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Tratamento de Excepções")) {
@@ -130,6 +131,7 @@ public class Abyss extends AbyssOrTool {
                 }
             } else {
                 programmer.move(-2, size);
+                numeroPisadelas++;
             }
         } else if (title.equals("File Not Found Exception")) {
             if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Tratamento de Excepções")) {
@@ -140,6 +142,7 @@ public class Abyss extends AbyssOrTool {
                 }
             } else {
                 programmer.move(-3, size);
+                numeroPisadelas++;
             }
         } else if (title.equals("Crash (aka Rebentanço)")) {
             programmer.setPos(1);
@@ -148,12 +151,14 @@ public class Abyss extends AbyssOrTool {
                 programmer.getTools().remove("Herança");
             } else {
                 programmer.setPos(penultimaPos);
+                numeroPisadelas++;
             }
         } else if (title.equals("Efeitos secundários")) {
             if (programmer.getTools().contains("Programação Funcional")) {
                 programmer.getTools().remove("Programação Funcional");
             } else {
                 programmer.setPos(antepenultimaPos);
+                numeroPisadelas++;
             }
         } else if (title.equals("Blue Screen of Death")) {
             programmer.setPodeMover(false);
@@ -162,6 +167,7 @@ public class Abyss extends AbyssOrTool {
             if (programmer.getTools().contains("Programação Funcional")) {
                 programmer.getTools().remove("Programação Funcional");
             } else {
+                numeroPisadelas++;
                 programmer.setPodeMover(false);
                 for (Programmer programmer1 : programmers) {
                     if (!(programmer1.getName().equals(programmer.getName()))) {
@@ -183,6 +189,7 @@ public class Abyss extends AbyssOrTool {
                 for (Programmer programmer1 : programmers) {
                     if (programmer1.getPos() == programmer.getPos()) {
                         programmer1.move(-3, size);
+                        numeroPisadelas++;
                     }
                 }
             }
