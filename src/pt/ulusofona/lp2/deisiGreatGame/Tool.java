@@ -1,8 +1,9 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Tool extends AbyssOrTool {
+public class Tool extends AbyssOrTool implements Serializable {
 
     protected Tool(int type, int pos) {
         super(type, pos);

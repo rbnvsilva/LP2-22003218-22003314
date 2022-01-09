@@ -1,8 +1,9 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Abyss extends AbyssOrTool {
+public class Abyss extends AbyssOrTool implements Serializable {
     int numeroPisadelas;
     protected Abyss(int type, int pos) {
         super(type, pos);
