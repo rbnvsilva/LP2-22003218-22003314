@@ -22,9 +22,6 @@ public abstract class AbyssOrTool implements Serializable {
         return title;
     }
 
-    protected int getType() {
-        return type;
-    }
 
     protected abstract String getImage();
 
