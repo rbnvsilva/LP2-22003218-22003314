@@ -1481,6 +1481,7 @@ public class TestGameManager {
             System.out.println(e.getMessage());
         }
         gameManager.moveCurrentPlayer(2);
+        assertEquals(24,gameManager.getSize());
         assertEquals(1, gameManager.getPositions().get(1).getNumeroPisadelas());
     }
 
@@ -1508,4 +1509,7 @@ public class TestGameManager {
             assertFalse(e.isInvalidTool());
         }
     }
+
+
 }
+

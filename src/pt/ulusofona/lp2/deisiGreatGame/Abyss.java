@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Abyss extends AbyssOrTool implements Serializable {
-    int numeroPisadelas;
     protected Abyss(int type, int pos) {
         super(type, pos);
-        numeroPisadelas = 0;
         if (type == 0) {
             this.title = "Erro de sintaxe";
         } else if (type == 1) {
@@ -30,7 +28,10 @@ public class Abyss extends AbyssOrTool implements Serializable {
             this.title = "Segmentation Fault";
         }
     }
-
+    @Override
+    protected boolean isAbyss (){
+        return true;
+    }
     @Override
     protected String getImage() {
         if (type == 0) {
@@ -85,11 +86,6 @@ public class Abyss extends AbyssOrTool implements Serializable {
     }
 
     @Override
-    public int getNumeroPisadelas() {
-        return numeroPisadelas;
-    }
-
-    @Override
     protected void react(Programmer programmer, List<Programmer> programmers, int size) {
         int posAtual = programmer.getPos();
         int penultimaPos = 0;
@@ -109,7 +105,6 @@ public class Abyss extends AbyssOrTool implements Serializable {
                 }
             } else {
                 programmer.move(-1, size);
-                numeroPisadelas++;
             }
         } else if (title.equals("Erro de lógica")) {
             int posFinal = (int) Math.floor((((double) posAtual - (double) penultimaPos) / 2));
@@ -121,7 +116,6 @@ public class Abyss extends AbyssOrTool implements Serializable {
                 }
             } else {
                 programmer.move(-posFinal, size);
-                numeroPisadelas++;
             }
         } else if (title.equals("Exception")) {
             if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Tratamento de Excepções")) {
@@ -132,7 +126,6 @@ public class Abyss extends AbyssOrTool implements Serializable {
                 }
             } else {
                 programmer.move(-2, size);
-                numeroPisadelas++;
             }
         } else if (title.equals("File Not Found Exception")) {
             if (programmer.getTools().contains("Ajuda Do Professor") || programmer.getTools().contains("Tratamento de Excepções")) {
@@ -143,29 +136,24 @@ public class Abyss extends AbyssOrTool implements Serializable {
                 }
             } else {
                 programmer.move(-3, size);
-                numeroPisadelas++;
             }
         } else if (title.equals("Crash (aka Rebentanço)")) {
             programmer.setPos(1);
-            numeroPisadelas++;
         } else if (title.equals("Duplicated Code")) {
             if (programmer.getTools().contains("Herança")) {
                 programmer.getTools().remove("Herança");
             } else {
                 programmer.setPos(penultimaPos);
-                numeroPisadelas++;
             }
         } else if (title.equals("Efeitos secundários")) {
             if (programmer.getTools().contains("Programação Funcional")) {
                 programmer.getTools().remove("Programação Funcional");
             } else {
                 programmer.setPos(antepenultimaPos);
-                numeroPisadelas++;
             }
         } else if (title.equals("Blue Screen of Death")) {
             programmer.setPodeMover(false);
             programmer.setGameState("Derrotado");
-            numeroPisadelas++;
         } else if (title.equals("Ciclo infinito")) {
             if (programmer.getTools().contains("Programação Funcional")) {
                 programmer.getTools().remove("Programação Funcional");
@@ -175,7 +163,6 @@ public class Abyss extends AbyssOrTool implements Serializable {
                     if (!(programmer1.getName().equals(programmer.getName()))) {
                         if (programmer1.getPos() == programmer.getPos()) {
                             programmer1.setPodeMover(true);
-                            numeroPisadelas++;
                         }
                     }
                 }
@@ -192,7 +179,6 @@ public class Abyss extends AbyssOrTool implements Serializable {
                 for (Programmer programmer1 : programmers) {
                     if (programmer1.getPos() == programmer.getPos()) {
                         programmer1.move(-3, size);
-                        numeroPisadelas++;
                     }
                 }
             }

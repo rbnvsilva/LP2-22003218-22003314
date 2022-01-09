@@ -11,11 +11,9 @@ public abstract class AbyssOrTool implements Serializable {
         this.type = type;
         this.pos = pos;
     }
-
-    protected int getNumeroPisadelas() {
-        return -1;
+    protected boolean isAbyss (){
+        return false;
     }
-
     protected int getPos() {
         return pos;
     }
@@ -38,8 +36,4 @@ public abstract class AbyssOrTool implements Serializable {
 
     protected abstract void react(Programmer programmer, List<Programmer> programmers, int size);
 
-    @Override
-    public String toString() {
-        return title + " | " + type + " | " + pos;
-    }
 }
