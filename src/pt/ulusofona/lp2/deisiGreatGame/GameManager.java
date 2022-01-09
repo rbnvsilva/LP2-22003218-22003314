@@ -218,10 +218,12 @@ public class GameManager {
                     programmer.getOldPos().add(programmer.getPos());
                     programmer.move(nrPositions, size);
 
-                    for (Position position : positions) {
-                        if (programmer.getPos() == position.getCasa()) {
-                            position.incrementaPisadelas();
-                            break;
+                    if (positions != null) {
+                        for (Position position : positions) {
+                            if (programmer.getPos() == position.getCasa()) {
+                                position.incrementaPisadelas();
+                                break;
+                            }
                         }
                     }
 
@@ -332,6 +334,7 @@ public class GameManager {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(programmers);
             oos.writeObject(abyssesOrTools);
+            oos.writeObject(positions);
             oos.writeInt(idTurn);
             oos.writeInt(nTurns);
             oos.writeInt(size);
@@ -350,6 +353,7 @@ public class GameManager {
             ObjectInputStream ois = new ObjectInputStream(fis);
             programmers = (ArrayList<Programmer>)ois.readObject();
             abyssesOrTools = (ArrayList<AbyssOrTool>)ois.readObject();
+            positions = (ArrayList<Position>)ois.readObject();
             idTurn = ois.readInt();
             nTurns = ois.readInt();
             size = ois.readInt();
