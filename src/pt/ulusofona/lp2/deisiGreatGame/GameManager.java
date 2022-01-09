@@ -2,7 +2,10 @@ package pt.ulusofona.lp2.deisiGreatGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.*;
 
@@ -47,15 +50,7 @@ public class GameManager {
                     }
                     if (info[3].equals("Purple") || info[3].equals("Blue")
                             || info[3].equals("Green") || info[3].equals("Brown")) {
-                        if (info[3].equals("Purple")) {
-                            color = ProgrammerColor.PURPLE;
-                        } else if (info[3].equals("Blue")) {
-                            color = ProgrammerColor.BLUE;
-                        } else if (info[3].equals("Green")) {
-                            color = ProgrammerColor.GREEN;
-                        } else {
-                            color = ProgrammerColor.BROWN;
-                        }
+                        color = convertColor(info);
                         if (colors.contains(color)) {
                             throw new InvalidInitialBoardException("Cor repetida");
                         } else {
@@ -331,11 +326,141 @@ public class GameManager {
     }
 
     public boolean saveGame(File file) {
-        return true;
+        try {
+            FileWriter myWriter = new FileWriter(file.getName());
+            myWriter.write(Arrays.deepToString(playerInfoSave).replace("], [", ",,")
+                    .replace("[", "").replace("]", "") + "\n");
+            for (Programmer programmer : programmers) {
+                myWriter.write(programmer.getPos() + " ");
+            }
+            myWriter.write("\n" + Arrays.deepToString(abyssesAndToolsSave).replace("], [", ",,")
+                    .replace("[", "").replace("]", ""));
+            myWriter.write("\n" + size);
+            myWriter.write("\n" + getCurrentPlayerID());
+            myWriter.write("\n" + nTurns+"\n");
+            int i = 0;
+            for (Programmer programmer : programmers) {
+                i = 0;
+                if(programmer.getTools().isEmpty()){
+                    myWriter.write(" ");
+                }
+                for(String toolName : programmer.getTools()){
+
+                    if(i == programmer.getTools().size()-1){
+                        myWriter.write(toolName);
+                    }else{
+                        myWriter.write(toolName + ",");
+                    }
+                    i++;
+                }
+                if(programmer != programmers.get(programmers.size()-1)){
+                    myWriter.write(",,");
+                }
+            }
+            myWriter.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     public boolean loadGame(File file) {
+        String[][] playerInfoLoad = new String[0][];
+        String[][] abyssesAndToolsLoad = new String[0][];
+        String[] positions = new String[0];
+        int newId = 0;
+        int newNturns = 0;
+        String[] tools = null;
+        try {
+            Scanner reader = new Scanner(file);
+            int i = 0;
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine();
+                if(data != null){
+                    if (i == 0) {
+                        playerInfoLoad = new String[data.split(",,").length][4];
+                        preencheArray(playerInfoLoad, data);
+                    } else if (i == 1) {
+                        positions = data.split(" ");
+                    } else if (i == 2) {
+                        abyssesAndToolsLoad = new String[data.split(",,").length][3];
+                        preencheArray(abyssesAndToolsLoad, data);
+                    } else if (i == 3) {
+                        size = Integer.parseInt(data.trim());
+                    } else if (i == 4) {
+                        newId = Integer.parseInt(data.trim());
+                    } else if (i == 5) {
+                        newNturns = Integer.parseInt(data.trim());
+                    }else if(i == 6){
+                        tools = data.split(",,");
+                    }
+                }
+                i++;
+            }
+            if (i < 5) {
+                return false;
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            return false;
+        }
+        programmers = new ArrayList<>();
+        abyssesOrTools = new ArrayList<>();
+        for (String[] info : playerInfoLoad) {
+            ProgrammerColor color = null;
+            color = convertColor(info);
+            programmers.add(new Programmer(Integer.parseInt(info[0]), info[1], info[2], color));
+        }
+
+        for (String[] abyssOrToolArray : abyssesAndToolsLoad) {
+            if (abyssOrToolArray[0].equals("1")) {
+                abyssesOrTools.add(new Tool(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
+            }else{
+                abyssesOrTools.add(new Abyss(Integer.parseInt(abyssOrToolArray[1]), Integer.parseInt(abyssOrToolArray[2])));
+            }
+        }
+
+        idTurn = newId;
+        nTurns = newNturns;
+        int i = 0;
+
+        for (Programmer programmer : programmers) {
+            programmer.setPos(Integer.parseInt(positions[i]));
+            if(tools != null && tools[i].length() > 1){
+                for(int j = 0;j< tools[i].split(",").length ; j++){
+                    if(!tools[i].split(",")[j].equals("")){
+                        programmer.getTools().add(tools[i].split(",")[j]);
+                    }
+
+                }
+            }
+
+
+            i++;
+        }
         return true;
+    }
+
+    private ProgrammerColor convertColor(String[] info) {
+        ProgrammerColor color;
+        if (info[3].equals("Purple")) {
+            color = ProgrammerColor.PURPLE;
+        } else if (info[3].equals("Blue")) {
+            color = ProgrammerColor.BLUE;
+        } else if (info[3].equals("Green")) {
+            color = ProgrammerColor.GREEN;
+        } else {
+            color = ProgrammerColor.BROWN;
+        }
+        return color;
+    }
+
+    private void preencheArray(String[][] playerInfoLoad, String data) {
+        for (int j = 0; j < data.split(",,").length; j++) {
+            for (int k = 0; k < data.split(",,")[j].trim().split(", ").length; k++) {
+                playerInfoLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
+            }
+        }
     }
 
     public int getSize() {
