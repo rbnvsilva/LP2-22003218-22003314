@@ -157,7 +157,7 @@ public class GameManager {
             }
         }
 
-        if (valid.size() == 0) {
+        if (position < 1 || position > 79 || valid.size() == 0) {
             return null;
         }
 
@@ -343,6 +343,7 @@ public class GameManager {
         } catch (Exception e) {
             return false;
         }
+
         return true;
     }
 
