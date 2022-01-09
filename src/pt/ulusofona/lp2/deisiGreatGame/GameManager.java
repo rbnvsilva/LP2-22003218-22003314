@@ -2,7 +2,7 @@ package pt.ulusofona.lp2.deisiGreatGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
+import java.io.*;
 import java.util.List;
 import java.util.*;
 
@@ -326,11 +326,39 @@ public class GameManager {
         return panel;
     }
 
-    public boolean saveGame(File file) {
+    public boolean saveGame(File file){
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(programmers);
+            oos.writeObject(abyssesOrTools);
+            oos.writeInt(idTurn);
+            oos.writeInt(nTurns);
+            oos.writeInt(size);
+            oos.close();
+            fos.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
         return true;
     }
 
-    public boolean loadGame(File file) {
+    public boolean loadGame(File file){
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            programmers = (ArrayList<Programmer>)ois.readObject();
+            abyssesOrTools = (ArrayList<AbyssOrTool>)ois.readObject();
+            idTurn = ois.readInt();
+            nTurns = ois.readInt();
+            size = ois.readInt();
+            ois.close();
+            fis.close();
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
         return true;
     }
 
