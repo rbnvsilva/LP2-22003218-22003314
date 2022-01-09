@@ -1506,8 +1506,6 @@ public class TestGameManager {
             assertEquals("0", e.getTypeId());
             assertTrue(e.isInvalidAbyss());
             assertFalse(e.isInvalidTool());
-            System.out.println(e.getMessage());
         }
-
     }
 }
