@@ -75,7 +75,7 @@ public class GameManager {
         if (abyssesAndTools != null) {
             for (String[] abyssOrToolArray : abyssesAndTools) {
                 if ((Integer.parseInt(abyssOrToolArray[0]) > 1) || (Integer.parseInt(abyssOrToolArray[0]) < 0)) {
-                    throw new InvalidInitialBoardException("Id invalido");
+                    throw new InvalidInitialBoardException("Erro de abismo");
                 } else {
                     if (abyssOrToolArray[0].equals("0")) {
                         if ((Integer.parseInt(abyssOrToolArray[1]) > 9) || (Integer.parseInt(abyssOrToolArray[1]) < 0)) {
@@ -328,7 +328,7 @@ public class GameManager {
         return panel;
     }
 
-    public boolean saveGame(File file){
+    public boolean saveGame(File file) {
         try {
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -351,9 +351,9 @@ public class GameManager {
         try {
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            programmers = (ArrayList<Programmer>)ois.readObject();
-            abyssesOrTools = (ArrayList<AbyssOrTool>)ois.readObject();
-            positions = (ArrayList<Position>)ois.readObject();
+            programmers = (ArrayList<Programmer>) ois.readObject();
+            abyssesOrTools = (ArrayList<AbyssOrTool>) ois.readObject();
+            positions = (ArrayList<Position>) ois.readObject();
             idTurn = ois.readInt();
             nTurns = ois.readInt();
             size = ois.readInt();

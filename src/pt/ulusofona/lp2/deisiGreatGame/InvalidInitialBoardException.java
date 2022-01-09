@@ -16,6 +16,11 @@ public class InvalidInitialBoardException extends Exception {
     }
 
     public String getTypeId() {
+        if (isInvalidAbyss()) {
+            return "0";
+        } else if (isInvalidTool()) {
+            return "1";
+        }
         return null;
     }
 

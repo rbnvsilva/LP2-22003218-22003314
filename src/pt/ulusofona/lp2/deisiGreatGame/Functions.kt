@@ -69,7 +69,7 @@ fun mostUsedPositions(manager: GameManager, args: List<String>): String? {
 
 fun mostUsedAbysses(manager: GameManager, args: List<String>): String? {
     if (manager.abyssesOrTools != null) {
-        return manager.abyssesOrTools.asSequence().filter {it.numeroPisadelas >= 0}.sortedWith { a1, a2 -> a2.numeroPisadelas - a1.numeroPisadelas}
+        return manager.abyssesOrTools.sortedWith {a1, a2 -> a2.numeroPisadelas - a1.numeroPisadelas}.filter {it.numeroPisadelas >= 0}
             .map { "${it.getTitle()}:${it.numeroPisadelas}" }.take(args[1].toInt()).joinToString("\n")
     }
     return ""
@@ -78,16 +78,8 @@ fun mostUsedAbysses(manager: GameManager, args: List<String>): String? {
 fun move(manager: GameManager, args: List<String>): String? {
     if (manager.getProgrammers(false) != null) {
         manager.getProgrammers(false)
-            .filter {it.id == manager.currentPlayerID}[0].move(args[1].toInt(), manager.size)
-
-        return if (manager.abyssesOrTools == null || manager.abyssesOrTools.none { it.getPos() == manager.getProgrammers(false)
-                .filter { it.id == manager.currentPlayerID }[0].pos}) {
-            "OK"
-        } else {
-            val message = manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(true)
-                .filter {it.id == manager.currentPlayerID}[0].pos}[0].message()
-            message
-        }
+            .filter { it.id == manager.currentPlayerID }[0].move(args[1].toInt(), manager.size)
+        return manager.reactToAbyssOrTool() ?: "OK"
     }
     return ""
 }
