@@ -341,13 +341,12 @@ public class GameManager {
             oos.close();
             fos.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
         return true;
     }
 
-    public boolean loadGame(File file){
+    public boolean loadGame(File file) {
         try {
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -360,7 +359,6 @@ public class GameManager {
             ois.close();
             fis.close();
         } catch(Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
         return true;

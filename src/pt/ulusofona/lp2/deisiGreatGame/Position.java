@@ -1,6 +1,8 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
-public class Position {
+import java.io.Serializable;
+
+public class Position implements Serializable {
     int numeroPisadelas, casa;
 
     public Position(int casa, int numeroPisadelas) {
