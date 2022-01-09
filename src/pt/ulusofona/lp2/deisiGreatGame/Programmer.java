@@ -1,10 +1,11 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-public class Programmer {
+public class Programmer implements Serializable {
     private int id, pos;
     private String name, gameState, favLanguages;
     private ProgrammerColor color;

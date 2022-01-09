@@ -77,14 +77,17 @@ fun mostUsedAbysses(manager: GameManager, args: List<String>): String? {
 
 fun move(manager: GameManager, args: List<String>): String? {
     if (manager.getProgrammers(false) != null) {
+
         manager.getProgrammers(false)
             .filter {it.id == manager.currentPlayerID}[0].move(args[1].toInt(), manager.size)
-        return if (manager.abyssesOrTools.none { it.getPos() == manager.getProgrammers(false)
-                .filter { it.id == manager.currentPlayerID }[0].pos}) {
-            "OK"
-        } else {
-            manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(false)
-                .filter {it.id == manager.currentPlayerID}[0].pos}[0].message()
+        if (manager.abyssesOrTools != null) {
+            return if (manager.abyssesOrTools.none { it.getPos() == manager.getProgrammers(false)
+                    .filter { it.id == manager.currentPlayerID }[0].pos}) {
+                "OK"
+            } else {
+                manager.abyssesOrTools.filter {it.getPos() == manager.getProgrammers(false)
+                    .filter {it.id == manager.currentPlayerID}[0].pos}[0].message()
+            }
         }
     }
     return ""

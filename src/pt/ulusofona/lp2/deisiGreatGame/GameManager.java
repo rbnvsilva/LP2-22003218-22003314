@@ -2,10 +2,7 @@ package pt.ulusofona.lp2.deisiGreatGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.*;
 
@@ -334,84 +331,10 @@ public class GameManager {
     }
 
     public boolean saveGame(File file) {
-        try {
-            FileWriter myWriter = new FileWriter(file.getName());
-            myWriter.write(Arrays.deepToString(playerInfoSave).replace("], [", ",,")
-                    .replace("[", "").replace("]", "") + "\n");
-            for (Programmer programmer : programmers) {
-                myWriter.write(programmer.getPos() + " ");
-            }
-            myWriter.write("\n" + Arrays.deepToString(abyssesAndToolsSave).replace("], [", ",,")
-                    .replace("[", "").replace("]", ""));
-            myWriter.write("\n" + size);
-            myWriter.write("\n" + getCurrentPlayerID());
-            myWriter.write("\n" + nTurns);
-            myWriter.close();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return true;
     }
 
     public boolean loadGame(File file) {
-        String[][] playerInfoLoad = new String[0][];
-        String[][] abyssesAndToolsLoad = new String[0][];
-        String[] positions = new String[0];
-        int newId = 0;
-        int newNturns = 0;
-        try {
-            Scanner reader = new Scanner(file);
-            int i = 0;
-            while (reader.hasNextLine()) {
-                String data = reader.nextLine();
-                if (i == 0) {
-                    playerInfoLoad = new String[data.split(",,").length][4];
-                    for (int j = 0; j < data.split(",,").length; j++) {
-                        for (int k = 0; k < 4; k++) {
-                            playerInfoLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
-                        }
-                    }
-                } else if (i == 1) {
-                    positions = data.split(" ");
-                } else if (i == 2) {
-                    abyssesAndToolsLoad = new String[data.split(",,").length][3];
-                    for (int j = 0; j < data.split(",,").length; j++) {
-                        for (int k = 0; k < abyssesAndToolsLoad[j].length; k++) {
-                            abyssesAndToolsLoad[j][k] = data.split(",,")[j].trim().split(", ")[k];
-                        }
-                    }
-                } else if (i == 3) {
-                    size = Integer.parseInt(data.trim());
-                } else if (i == 4) {
-                    newId = Integer.parseInt(data.trim());
-                } else if (i == 5) {
-                    newNturns = Integer.parseInt(data.trim());
-                }
-                i++;
-            }
-            if (i < 5) {
-                return false;
-            }
-            reader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        try {
-            createInitialBoard(playerInfoLoad, size, abyssesAndToolsLoad);
-        } catch (InvalidInitialBoardException i) {
-            System.out.println(i.getMessage());
-        }
-
-        idTurn = newId;
-        nTurns = newNturns;
-        int i = 0;
-        for (Programmer programmer : programmers) {
-            programmer.setPos(Integer.parseInt(positions[i]));
-            i++;
-        }
         return true;
     }
 

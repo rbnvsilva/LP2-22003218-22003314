@@ -1,8 +1,9 @@
 package pt.ulusofona.lp2.deisiGreatGame;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbyssOrTool {
+public abstract class AbyssOrTool implements Serializable {
     protected String title;
     protected int type, pos;
 
@@ -36,4 +37,9 @@ public abstract class AbyssOrTool {
     }
 
     protected abstract void react(Programmer programmer, List<Programmer> programmers, int size);
+
+    @Override
+    public String toString() {
+        return title + " | " + type + " | " + pos;
+    }
 }
