@@ -2,6 +2,7 @@ package pt.ulusofona.lp2.deisiGreatGame;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -9,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class TestFunctions {
     GameManager gameManager = new GameManager();
     @Test
-    public void testFunctionsGet() {
+    public void testFunctions() {
         String[][] abyssesAndTools = new String[3][3];
         String[][] playerInfo = new String[2][4];
         playerInfo[0][0] = "1";
@@ -34,22 +35,46 @@ public class TestFunctions {
         } catch (InvalidInitialBoardException e) {
             System.out.println(e.getMessage());
         }
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("MOST_USED_ABYSSES");
+        arrayList.add("3");
         assertEquals("Crash (aka Rebentanço):0\nErro de sintaxe:0\nErro de lógica:0",
-                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, Arrays.stream("MOST_USED_ABYSSES 10".split(" ")).toList()));
+                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager,arrayList));
+        arrayList = new ArrayList<>();
+        arrayList.add("PLAYER");
+        arrayList.add("Fiona");
         assertEquals("2 | Fiona | 1 | No tools | Python | Em Jogo",
-                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, Arrays.stream("PLAYER Fiona".split(" ")).toList()));
+                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, arrayList));
+        arrayList = new ArrayList<>();
+        arrayList.add("PLAYER");
+        arrayList.add("Shrek");
         assertEquals("Inexistent player",
-                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, Arrays.stream("PLAYER Shrek".split(" ")).toList()));
+                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, arrayList));
+        arrayList = new ArrayList<>();
+        arrayList.add("PLAYERS_BY_LANGUAGE");
+        arrayList.add("Python");
         assertEquals("Rui,Fiona",
-                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, Arrays.stream("PLAYERS_BY_LANGUAGE Python".split(" ")).toList()));
+                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, arrayList));
+        arrayList = new ArrayList<>();
+        arrayList.add("POLYGLOTS");
         assertEquals("Rui:2",
-                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, Arrays.stream("POLYGLOTS".split(" ")).toList()));
-        assertEquals("OK", FunctionsKt.router().invoke(CommandType.POST).invoke(gameManager, Arrays.stream("MOVE 3".split(" ")).toList()));
+                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, arrayList));
+        arrayList = new ArrayList<>();
+        arrayList.add("MOVE");
+        arrayList.add("3");
+        assertEquals("OK", FunctionsKt.router().invoke(CommandType.POST).invoke(gameManager, arrayList));
         assertEquals(4,gameManager.getProgrammers(true).get(0).getPos());
         gameManager.moveCurrentPlayer(2);
+        arrayList = new ArrayList<>();
+        arrayList.add("MOST_USED_POSITIONS");
+        arrayList.add("1");
         assertEquals("3:1",
-                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, Arrays.stream("MOST_USED_POSITIONS 1".split(" ")).toList()));
+                FunctionsKt.router().invoke(CommandType.GET).invoke(gameManager, arrayList));
+        arrayList = new ArrayList<>();
+        arrayList.add("ABYSS");
+        arrayList.add("1");
+        arrayList.add("10");
         assertEquals("OK",
-                FunctionsKt.router().invoke(CommandType.POST).invoke(gameManager, Arrays.stream("ABYSS 1 10".split(" ")).toList()));
+                FunctionsKt.router().invoke(CommandType.POST).invoke(gameManager, arrayList));
     }
 }
