@@ -71,8 +71,9 @@ fun mostUsedPositions(manager: GameManager, args: List<String>): String? {
 
 fun mostUsedAbysses(manager: GameManager, args: List<String>): String? {
     if (manager.abysses != null) {
-        return manager.abysses.sortedWith{a1,a2 -> Collections.frequency(manager.abysses,a2) - Collections.frequency(manager.abysses,a1)}
-            .map{"${it}:${Collections.frequency(manager.abysses,it)-1}"}.distinct().take(args[1].toInt()).joinToString("\n")
+        return manager.abysses.sortedWith{a1, a2 -> manager.positions.get(a2.getPos() - 2).getNumeroPisadelas() - manager.positions.get(a1.getPos() - 2).getNumeroPisadelas()}
+            .distinctBy{it.getTitle()}.map {"${it.getTitle()}:${manager.positions.get(it.getPos() - 2).getNumeroPisadelas()}"}
+            .take(args[1].toInt()).joinToString("\n")
     }
     return ""
 }
