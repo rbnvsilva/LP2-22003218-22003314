@@ -11,6 +11,7 @@ public class GameManager {
     private ArrayList<Programmer> programmers;
     private ArrayList<AbyssOrTool> abyssesOrTools;
     private ArrayList<Position> positions;
+    private ArrayList<String> abysses;
 
     public GameManager() {
     }
@@ -23,6 +24,7 @@ public class GameManager {
         ProgrammerColor color = null;
         size = worldSize;
         positions = new ArrayList<>();
+        abysses = new ArrayList<>();
         for (int i = 2; i <= size; i++) {
             positions.add(new Position(i, 0));
         }
@@ -99,6 +101,11 @@ public class GameManager {
                         }
                     }
                 }
+            }
+        }
+        for(AbyssOrTool abyssOrTool : abyssesOrTools){
+            if(abyssOrTool.isAbyss()){
+                abysses.add(abyssOrTool.getTitle());
             }
         }
     }
@@ -244,6 +251,9 @@ public class GameManager {
                         if (abyssOrTool.comparePos(programmer.getPos())) {
                             if (i == 0) {
                                 message.append(abyssOrTool.message());
+                                if(abyssOrTool.isAbyss()){
+                                    abysses.add(abyssOrTool.getTitle());
+                                }
                                 abyssOrTool.react(programmer, getProgrammers(false), size);
                             }
                             i++;
@@ -335,6 +345,7 @@ public class GameManager {
             oos.writeObject(programmers);
             oos.writeObject(abyssesOrTools);
             oos.writeObject(positions);
+            oos.writeObject(abysses);
             oos.writeInt(idTurn);
             oos.writeInt(nTurns);
             oos.writeInt(size);
@@ -354,9 +365,11 @@ public class GameManager {
             programmers = (ArrayList<Programmer>) ois.readObject();
             abyssesOrTools = (ArrayList<AbyssOrTool>) ois.readObject();
             positions = (ArrayList<Position>) ois.readObject();
+            abysses = (ArrayList<String>) ois.readObject();
             idTurn = ois.readInt();
             nTurns = ois.readInt();
             size = ois.readInt();
+
             ois.close();
             fis.close();
         } catch(Exception e) {
@@ -367,6 +380,10 @@ public class GameManager {
 
     public int getSize() {
         return size;
+    }
+
+    public ArrayList<String> getAbysses() {
+        return abysses;
     }
 
     public ArrayList<Position> getPositions() {

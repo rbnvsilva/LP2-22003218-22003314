@@ -1,5 +1,7 @@
 package pt.ulusofona.lp2.deisiGreatGame
 
+import java.util.*
+
 enum class CommandType {
     GET, POST
 }
@@ -68,9 +70,9 @@ fun mostUsedPositions(manager: GameManager, args: List<String>): String? {
 }
 
 fun mostUsedAbysses(manager: GameManager, args: List<String>): String? {
-    if (manager.abyssesOrTools != null) {
-        return manager.abyssesOrTools.sortedWith {a1, a2 -> manager.positions.get(a2.getPos()-2).numeroPisadelas - manager.positions.get(a1.getPos()-2).numeroPisadelas}.filter {it.isAbyss}
-            .map { "${it.getTitle()}:${manager.positions.get(it.getPos()-2).numeroPisadelas}" }.take(args[1].toInt()).joinToString("\n")
+    if (manager.abysses != null) {
+        return manager.abysses.sortedWith{a1,a2 -> Collections.frequency(manager.abysses,a2) - Collections.frequency(manager.abysses,a1)}
+            .map{"${it}:${Collections.frequency(manager.abysses,it)-1}"}.distinct().take(args[1].toInt()).joinToString("\n")
     }
     return ""
 }
